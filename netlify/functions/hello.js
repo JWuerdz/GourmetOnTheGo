@@ -1,31 +1,17 @@
 const { MongoClient } = require("mongodb");
 
-if (!process.env.MONGODB_URI) {
-    throw new Error("MONGODB_URI is not defined. Check your Netlify environment variables.");
-}
+const mongoClient = new MongoClient(process.env.MONGODB_URI);
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-const clientPromise = client.connect();
+const clientPromise = mongoClient.connect();
 
 const handler = async (event) => {
     try {
-        console.log("Connected to MongoDB:", process.env.MONGODB_URI);  
         const database = (await clientPromise).db(process.env.MONGODB_DATABASE);
         const collection = database.collection(process.env.MONGODB_COLLECTION);
-        const results = await collection.find({}).limit(10).toArray();
-        
-        return {
-            statusCode: 200,
-            body: JSON.stringify(results),
-        };
+        // Function logic here ...
     } catch (error) {
-        console.error("Database query error:", error);
-        return { statusCode: 500, body: JSON.stringify({ error: error.toString() }) };
+        return { statusCode: 500, body: error.toString() }
     }
-};
+}
 
-module.exports = { handler };
+module.exports = { handler }
