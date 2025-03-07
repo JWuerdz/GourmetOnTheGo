@@ -5,9 +5,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+    });
 
 const clientPromise = client.connect();
 
