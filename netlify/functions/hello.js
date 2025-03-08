@@ -16,9 +16,11 @@ const handler = async (event) => {
         const collection = database.collection(process.env.MONGODB_COLLECTION);
         const results = await collection.find({name: "Test Item"}).limit(1).toArray();
         
+        console.log(results);
+
         return {
             statusCode: 200,
-            body: JSON.stringify(results),
+            
         };
     } catch (error) {
         console.error("Database query error:", error);
