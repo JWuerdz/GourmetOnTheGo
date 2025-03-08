@@ -1,0 +1,146 @@
+/* Order Page Container */
+.order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  padding: 20px;
+}
+
+/* Empty Cart Styling */
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.empty-cart p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Order List */
+.order-list {
+  background: white;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+/* Individual Order Item */
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.food-name {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.food-price {
+  font-size: 1.1rem;
+  color: #27ae60;
+}
+
+/* Minus Button */
+.minus-btn {
+  background-color: #ff5e62;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.minus-btn:hover {
+  background-color: #e53935;
+}
+
+/* Subtotal Section */
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 600px;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Button Group for Clear & Checkout */
+.button-group {
+  display: flex;
+  gap: 15px;
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+/* Clear Order & Checkout Buttons */
+.clear-order-btn,
+.checkout-btn {
+  background-color: #27ae60;
+  color: #fff;
+  padding: 14px 22px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.clear-order-btn:hover,
+.checkout-btn:hover {
+  background-color: #1e8449;
+  transform: scale(1.05);
+}
+
+.clear-order-btn {
+  background-color: #ff5e62;
+}
+
+.clear-order-btn:hover {
+  background-color: #e53935;
+}
+
+/* Back to Menu Button */
+.back-to-menu-btn {
+  background-color: #d35400;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-to-menu-btn:hover {
+  background-color: #b03900;
+  transform: scale(1.05);
+}
