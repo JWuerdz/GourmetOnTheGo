@@ -1,0 +1,30 @@
+/* Navbar Container */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #d35400;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures Navbar is above everything */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Navbar Buttons */
+  .nav-button {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  
