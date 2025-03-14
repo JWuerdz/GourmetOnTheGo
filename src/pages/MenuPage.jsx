@@ -3,20 +3,17 @@ import { useNavigate } from "react-router-dom";
 import TopHeader from "../components/TopHeader.jsx";
 import { ItemsContext } from "../context/ItemsContext";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Tilt } from "react-tilt"; // Corrected import
+import Tilt from "react-parallax-tilt"; // Updated import
 import "./MenuPage.css";
 
-// Default tilt options
 const defaultTiltOptions = {
-  reverse: false,
-  max: 15,
-  perspective: 1000,
-  scale: 1.05,
-  speed: 300,
-  transition: true,
-  axis: null,
-  reset: true,
-  easing: "cubic-bezier(.03,.98,.52,.99)",
+  tiltMaxAngleX: 15, // Maximum tilt angle on the X-axis
+  tiltMaxAngleY: 15, // Maximum tilt angle on the Y-axis
+  scale: 1.05,       // Scale effect on hover
+  transitionSpeed: 300, // Transition speed in milliseconds
+  glareEnable: true, // Enable glare effect
+  glareMaxOpacity: 0.5, // Maximum glare opacity
+  glarePosition: "all", // Glare position
 };
 
 const MenuPage = () => {
@@ -35,7 +32,7 @@ const MenuPage = () => {
   const [gradientAngle, setGradientAngle] = useState(135);
   useEffect(() => {
     const interval = setInterval(() => {
-      setGradientAngle(prev => (prev + 0.5) % 360);
+      setGradientAngle((prev) => (prev + 0.5) % 360);
     }, 50);
     return () => clearInterval(interval);
   }, []);
@@ -43,7 +40,7 @@ const MenuPage = () => {
   // Add to cart with particle effect
   const handleAddToCart = (item) => {
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    const index = storedCart.findIndex(cartItem => cartItem.id === item.id);
+    const index = storedCart.findIndex((cartItem) => cartItem.id === item.id);
     if (index !== -1) {
       storedCart[index].quantity += 1;
     } else {
@@ -75,18 +72,14 @@ const MenuPage = () => {
             setCartOpen={setCartOpen}
             handleRemoveOne={(itemId) => {
               const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
-              const updatedCart = storedCart.filter(item => item.id !== itemId);
+              const updatedCart = storedCart.filter((item) => item.id !== itemId);
               sessionStorage.setItem("cart", JSON.stringify(updatedCart));
               setCart(updatedCart);
             }}
             goToOrderPage={() => navigate("/order")}
         />
 
-        <motion.div
-            className="menu-container"
-            style={{ y }}
-            ref={containerRef}
-        >
+        <motion.div className="menu-container" style={{ y }} ref={containerRef}>
           <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -97,12 +90,20 @@ const MenuPage = () => {
 
           <div className="menu-list">
             {items.map((item) => (
-                <Tilt // Changed from ReactTilt to Tilt
+                <Tilt
                     key={item.id}
-                    options={defaultTiltOptions} // Use defined options
+                    tiltMaxAngleX={defaultTiltOptions.tiltMaxAngleX}
+                    tiltMaxAngleY={defaultTiltOptions.tiltMaxAngleY}
+                    scale={defaultTiltOptions.scale}
+                    transitionSpeed={defaultTiltOptions.transitionSpeed}
+                    glareEnable={defaultTiltOptions.glareEnable}
+                    glareMaxOpacity={defaultTiltOptions.glareMaxOpacity}
+                    glarePosition={defaultTiltOptions.glarePosition}
                 >
                   <motion.div
-                      className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
+                      className={`menu-item ${
+                          addedItemId === item.id ? "added-animation" : ""
+                      }`}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       whileHover={{ scale: 1.05 }}
@@ -142,11 +143,7 @@ const MenuPage = () => {
             onClick={toggleCart}
         >
           🛒
-          <motion.span
-              key={cart.length}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-          >
+          <motion.span key={cart.length} initial={{ scale: 0 }} animate={{ scale: 1 }}>
             {cart.length}
           </motion.span>
         </motion.button>
