@@ -1,0 +1,49 @@
+/* Container for the marquee */
+.marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #fdfbfb;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    height: 50px; /* Adjust height as needed */
+  }
+  
+  /* Common marquee styles */
+  .marquee {
+    position: absolute;
+    white-space: nowrap;
+    width: 200%; /* Enough width to allow smooth scrolling */
+  }
+  
+  /* Text styling for marquee items */
+  .marquee-text {
+    font-size: 1.5rem;
+    color: #d35400;
+    padding: 0 50px;
+  }
+  
+  /* Left-to-right scrolling (appears at the top) */
+  .marquee-left {
+    top: 0;
+    animation: marqueeLeft 15s linear infinite;
+  }
+  
+  /* Right-to-left scrolling (appears at the bottom) */
+  .marquee-right {
+    bottom: 0;
+    animation: marqueeRight 15s linear infinite;
+  }
+  
+  /* Keyframe animation for left-to-right */
+  @keyframes marqueeLeft {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+  
+  /* Keyframe animation for right-to-left */
+  @keyframes marqueeRight {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  
