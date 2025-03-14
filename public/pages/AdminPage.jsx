@@ -1,7 +1,7 @@
 // pages/AdminPage.jsx (new file)
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ItemsContext } from "../context/ItemsContext";
+import { ItemsContext } from "../context/ItemsContext.jsx";
 import "./AdminPage.css";
 
 const AdminPage = () => {

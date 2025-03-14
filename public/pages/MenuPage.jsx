@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import TopHeader from "../components/TopHeader.jsx";
-import { ItemsContext } from "../context/ItemsContext";
+import { ItemsContext } from "../context/ItemsContext.jsx";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Tilt from "react-parallax-tilt"; // Updated import
 import "./MenuPage.css";
