@@ -1,0 +1,297 @@
+/* MenuPage.css */
+.menu-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 80px; /* Space for the fixed header */
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #f8f8f8;
+  position: relative;
+}
+
+/* Container for the menu */
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+h1 {
+  font-size: 2.8rem;
+  color: #d35400;
+  margin-bottom: 30px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Grid layout for menu items */
+.menu-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Individual menu item card */
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+.menu-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Info inside the card */
+.menu-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.food-name {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.food-description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.food-price {
+  color: #27ae60;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* "Add to Order" button */
+.add-btn {
+  background-color: #d35400;
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-btn:hover {
+  background-color: #b03900;
+  transform: scale(1.05);
+}
+
+.btn-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          transparent 100%
+  );
+  transition: left 0.6s;
+}
+
+.add-btn:hover .btn-shine {
+  left: 100%;
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* Sticky Cart Button */
+.sticky-cart-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #d35400;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sticky-cart-btn:hover {
+  background-color: #b03900;
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%   { background-color: #fff; }
+  50%  { background-color: #f8f8f8; }
+  100% { background-color: #fff; }
+}
+
+.menu-item.added-animation {
+  animation: glow 0.4s ease-in-out;
+}
+
+/* Awwwards-Inspired Hover Underline Effect */
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-text {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.nav-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #00ff9d; /* Neon green accent color */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover .nav-text::after {
+  width: 100%;
+}
+
+.nav-link:hover .nav-text {
+  color: #00ff9d;
+}
+
+/* Mobile Menu Toggle Animation */
+.menu-toggle {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  display: none; /* Hide by default */
+}
+
+.menu-toggle span {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle span:nth-child(1) {
+  top: 0;
+}
+
+.menu-toggle span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.menu-toggle span:nth-child(3) {
+  bottom: 0;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .menu-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .food-name {
+    font-size: 1.3rem;
+  }
+
+  .food-description {
+    font-size: 0.9rem;
+  }
+
+  .food-price {
+    font-size: 1.2rem;
+  }
+
+  .sticky-cart-btn {
+    bottom: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Show mobile menu toggle on small screens */
+  .menu-toggle {
+    display: block;
+  }
+}

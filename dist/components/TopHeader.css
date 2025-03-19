@@ -1,0 +1,190 @@
+/* Fixed top header */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    z-index: 3000;
+}
+
+/* Left side brand name */
+.header-left .header-logo {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Right side: login + cart link */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Login button */
+.login-button {
+    background-color: #006b36;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #004824;
+}
+
+/* CART (X) link */
+.cart-link {
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+/* Cart popup container (hidden by default) */
+.cart-popup {
+    position: absolute;
+    top: 60px;
+    right: 20px; /* Shift from edge so it doesn't go off screen */
+    width: 240px; /* Smaller width */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    padding: 15px;
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+/* Show popup if .open is present */
+.cart-popup.open {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Title "CART (X)" */
+.cart-popup h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.cart-popup hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+/* Empty cart text */
+.empty-cart {
+    margin: 10px 0;
+    color: #999;
+    font-size: 0.95rem;
+}
+
+/* Cart items list */
+.cart-items-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 180px; /* Scroll if many items */
+    overflow-y: auto;
+}
+
+/* Single cart item row */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    white-space: normal; /* wrap text if needed */
+}
+
+/* The item info (name, quantity) */
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-name {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.item-qty {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Minus button to remove item */
+.minus-btn {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 25px;
+    height: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.minus-btn:hover {
+    background-color: #a93226;
+    transform: scale(1.05);
+}
+
+/* Subtotal row */
+.subtotal {
+    text-align: right;
+    font-size: 0.95rem;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+/* Checkout button */
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #27ae60;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.checkout-btn:hover {
+    background-color: #1e8449;
+}
+
+/* Responsive: make cart narrower on small screens */
+@media (max-width: 480px) {
+    .cart-popup {
+        width: 200px;
+        right: 10px;
+    }
+}
