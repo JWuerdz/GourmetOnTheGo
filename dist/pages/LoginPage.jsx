@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Added Link import
+import { useNavigate, Link } from "react-router-dom";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -7,7 +7,7 @@ const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false); // Track if user is logging in as admin
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     // Toggle between Login and Sign Up forms
@@ -16,34 +16,31 @@ const LoginPage = () => {
         setUsername("");
         setEmail("");
         setPassword("");
-        setIsAdmin(false); // Reset admin toggle
+        setIsAdmin(false);
     };
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Basic validation
         if (!username || !password) {
             alert("Please fill in all fields.");
             return;
         }
 
-        // Simulate login logic
         if (isLogin) {
             if (isAdmin && username === "admin" && password === "admin123") {
                 alert("Admin login successful!");
-                navigate("/admin"); // Redirect to admin page
+                navigate("/admin");
             } else if (!isAdmin && username === "user" && password === "user123") {
                 alert("User login successful!");
-                navigate("/menu"); // Redirect to menu page
+                navigate("/menu");
             } else {
                 alert("Invalid credentials.");
             }
         } else {
-            // Simulate sign-up logic
             alert(`Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
-            setIsLogin(true); // Switch back to login form after sign-up
+            setIsLogin(true);
         }
     };
 
@@ -86,7 +83,6 @@ const LoginPage = () => {
                     required
                 />
 
-                {/* Admin Login Toggle */}
                 {isLogin && (
                     <div className="admin-toggle">
                         <label>

@@ -1,4 +1,4 @@
-// pages/AdminPage.jsx (new file)
+// AdminPage.jsx
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext.jsx";
@@ -13,6 +13,7 @@ const AdminPage = () => {
     const handleEdit = (item) => {
         setEditingItem(item);
         setNewItem(item);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleSubmit = (e) => {
@@ -28,48 +29,52 @@ const AdminPage = () => {
 
     return (
         <div className="admin-container">
-            <h1>Admin Dashboard</h1>
-            <button className="back-button" onClick={() => navigate("/menu")}>← Back to Menu</button>
-
-            <form onSubmit={handleSubmit} className="admin-form">
-                <input
-                    type="text"
-                    placeholder="Item Name"
-                    value={newItem.name}
-                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                    required
-                />
-                <textarea
-                    placeholder="Description"
-                    value={newItem.description}
-                    onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Price"
-                    step="0.01"
-                    value={newItem.price}
-                    onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) })}
-                    required
-                />
-                <button type="submit" className="save-button">
-                    {editingItem ? "Update Item" : "Add Item"}
+            <div className="admin-content">
+                <h1>Admin Dashboard</h1>
+                <button className="back-button" onClick={() => navigate("/menu")}>
+                    ← Back to Menu
                 </button>
-            </form>
 
-            <div className="items-list">
-                {items.map(item => (
-                    <div key={item.id} className="admin-item">
-                        <h3>{item.name}</h3>
-                        <p>{item.description}</p>
-                        <p>${item.price.toFixed(2)}</p>
-                        <div className="item-actions">
-                            <button onClick={() => handleEdit(item)}>Edit</button>
-                            <button onClick={() => removeItem(item.id)}>Delete</button>
+                <form onSubmit={handleSubmit} className="admin-form glow-hover">
+                    <input
+                        type="text"
+                        placeholder="Item Name"
+                        value={newItem.name}
+                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                        required
+                    />
+                    <textarea
+                        placeholder="Description"
+                        value={newItem.description}
+                        onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Price"
+                        step="0.01"
+                        value={newItem.price}
+                        onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
+                        required
+                    />
+                    <button type="submit" className="save-button">
+                        {editingItem ? "Update Item" : "Add Item"}
+                    </button>
+                </form>
+
+                <div className="items-list">
+                    {items.map(item => (
+                        <div key={item.id} className="admin-item glow-hover">
+                            <h3>{item.name}</h3>
+                            <p>{item.description}</p>
+                            <p className="item-price">${item.price.toFixed(2)}</p>
+                            <div className="item-actions">
+                                <button onClick={() => handleEdit(item)}>Edit</button>
+                                <button onClick={() => removeItem(item.id)}>Delete</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );
