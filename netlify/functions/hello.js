@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = "../../";
 const DB_SOURCE = path.join(__dirname, "data/gourmet2go.sqlite");
 const TEMP_DB = "/tmp/gourmet2go.sqlite";
 
