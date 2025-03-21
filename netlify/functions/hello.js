@@ -15,6 +15,7 @@ import { fileURLToPath } from 'url';
 const db = new sqlite3.Database("../../data/gourmet2go.sqlite", sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) {
         console.error("Error opening SQLite database:", err.message);
+        console.log(err.message)
         throw new Error("Unable to connect to SQLite database.");
     }
     console.log("Connected to SQLite database: gourmet2go.sqlite");
