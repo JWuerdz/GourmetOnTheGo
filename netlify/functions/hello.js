@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const DB_SOURCE = "../data/gourmet2go.sqlite";
+const DB_SOURCE = "../../dist/data/gourmet2go.sqlite";
 const TEMP_DB = "/tmp/gourmet2go.sqlite";
 
 // Ensure the source database exists before copying
