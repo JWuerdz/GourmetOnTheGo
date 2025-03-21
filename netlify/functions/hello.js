@@ -2,14 +2,14 @@ import sqlite3 from "sqlite3";
 import path from "path";
 import { fileURLToPath } from 'url';
 
-// Resolve the directory name for ES modules
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// // Resolve the directory name for ES modules
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Resolve the path to the SQLite file in the 'data' folder
-const dbPath = path.resolve(__dirname, "../../data/gourmet2go.sqlite");
+// // Resolve the path to the SQLite file in the 'data' folder
+// const dbPath = path.resolve(__dirname, "../../data/gourmet2go.sqlite");
 
-// Log the resolved path for debugging
-console.log("Resolved database path:", dbPath);
+// // Log the resolved path for debugging
+// console.log("Resolved database path:", dbPath);
 
 //Connect to the existing SQLite database
 const db = new sqlite3.Database("../../data/gourmet2go.sqlite", sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
