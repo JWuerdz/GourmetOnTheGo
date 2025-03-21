@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import TopHeader from "../components/TopHeader.jsx";
 import { ItemsContext } from "../context/ItemsContext.jsx";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Tilt from "react-parallax-tilt"; // Updated import
+import Tilt from "react-parallax-tilt";
 import "./MenuPage.css";
 
 const defaultTiltOptions = {
-  tiltMaxAngleX: 15, // Maximum tilt angle on the X-axis
-  tiltMaxAngleY: 15, // Maximum tilt angle on the Y-axis
-  scale: 1.05,       // Scale effect on hover
-  transitionSpeed: 300, // Transition speed in milliseconds
-  glareEnable: true, // Enable glare effect
-  glareMaxOpacity: 0.5, // Maximum glare opacity
-  glarePosition: "all", // Glare position
+  tiltMaxAngleX: 15,
+  tiltMaxAngleY: 15,
+  scale: 1.05,
+  transitionSpeed: 300,
+  glareEnable: true,
+  glareMaxOpacity: 0.5,
+  glarePosition: "all",
 };
 
 const MenuPage = () => {
@@ -24,11 +24,9 @@ const MenuPage = () => {
   const [addedItemId, setAddedItemId] = useState(null);
   const containerRef = useRef(null);
 
-  // Parallax scroll effects
   const { scrollYProgress } = useScroll({ container: containerRef });
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Dynamic gradient background
   const [gradientAngle, setGradientAngle] = useState(135);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,7 +35,11 @@ const MenuPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Add to cart with particle effect
+  useEffect(() => {
+    const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    setCart(storedCart);
+  }, []);
+
   const handleAddToCart = (item) => {
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const index = storedCart.findIndex((cartItem) => cartItem.id === item.id);
@@ -48,14 +50,28 @@ const MenuPage = () => {
     }
     sessionStorage.setItem("cart", JSON.stringify(storedCart));
     setCart(storedCart);
-    setAddedItemId(item.id); // Highlight the added item
-    setCartOpen(true); // Open the cart
+    setAddedItemId(item.id);
+    setCartOpen(true);
 
-    // Reset the added item highlight after 1 second
     setTimeout(() => setAddedItemId(null), 1000);
   };
 
-  // Toggle cart open/close
+  const handleRemoveOne = (itemId) => {
+    let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    const itemIndex = storedCart.findIndex((item) => item.id === itemId);
+
+    if (itemIndex !== -1) {
+      if (storedCart[itemIndex].quantity > 1) {
+        storedCart[itemIndex].quantity -= 1;
+      } else {
+        storedCart.splice(itemIndex, 1);
+      }
+    }
+
+    sessionStorage.setItem("cart", JSON.stringify(storedCart));
+    setCart(storedCart);
+  };
+
   const toggleCart = () => setCartOpen(!cartOpen);
 
   return (
@@ -70,14 +86,18 @@ const MenuPage = () => {
             cart={cart}
             cartOpen={cartOpen}
             setCartOpen={setCartOpen}
-            handleRemoveOne={(itemId) => {
-              const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
-              const updatedCart = storedCart.filter((item) => item.id !== itemId);
-              sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-              setCart(updatedCart);
-            }}
+            handleRemoveOne={handleRemoveOne}
             goToOrderPage={() => navigate("/order")}
         />
+
+        <nav className="nav-bar">
+          <Link to="/">Home</Link>
+          <Link to="/menu">Menu</Link>
+          <Link to="/order">Order</Link>
+          <Link to="/login">Login</Link>
+          <Link to="/about">About</Link>
+          <Link to="/admin">Admin</Link>
+        </nav>
 
         <motion.div className="menu-container" style={{ y }} ref={containerRef}>
           <motion.h1
@@ -90,20 +110,9 @@ const MenuPage = () => {
 
           <div className="menu-list">
             {items.map((item) => (
-                <Tilt
-                    key={item.id}
-                    tiltMaxAngleX={defaultTiltOptions.tiltMaxAngleX}
-                    tiltMaxAngleY={defaultTiltOptions.tiltMaxAngleY}
-                    scale={defaultTiltOptions.scale}
-                    transitionSpeed={defaultTiltOptions.transitionSpeed}
-                    glareEnable={defaultTiltOptions.glareEnable}
-                    glareMaxOpacity={defaultTiltOptions.glareMaxOpacity}
-                    glarePosition={defaultTiltOptions.glarePosition}
-                >
+                <Tilt key={item.id} {...defaultTiltOptions}>
                   <motion.div
-                      className={`menu-item ${
-                          addedItemId === item.id ? "added-animation" : ""
-                      }`}
+                      className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       whileHover={{ scale: 1.05 }}
@@ -118,7 +127,7 @@ const MenuPage = () => {
 
                     <motion.button
                         className="add-btn"
-                        onClick={(e) => handleAddToCart(item, e)}
+                        onClick={() => handleAddToCart(item)}
                         whileHover={{
                           scale: 1.1,
                           background: "linear-gradient(45deg, #ff5e62, #d35400)",
@@ -134,6 +143,16 @@ const MenuPage = () => {
             ))}
           </div>
         </motion.div>
+
+        <motion.button
+            className="sticky-action-btn"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            onClick={() => navigate("/about")}
+        >
+          About
+        </motion.button>
 
         <motion.button
             className="sticky-cart-btn"
