@@ -1,5 +1,4 @@
 [build]
   functions = "netlify/functions"
-  included_files = ["data/**.sqlite"]
-
+  included_files = ["netlify/functions/data/*.sqlite"]
 
