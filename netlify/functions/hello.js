@@ -8,9 +8,13 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function handler(event, context) {
   try {
     const { data, error } = await supabase
-      .from('Items')
-      .select()
-      .eq('name', 'Test Item')
+
+         .from("Users")
+         .select()
+         .eq('email', 'testuser@fakeemail.com')
+      // .from('Items')
+      // .select()
+      // .eq('name', 'Test Item')
       ;
 
     if (error) throw error;
