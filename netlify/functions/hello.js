@@ -8,10 +8,10 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function handler(event, context) {
   try {
     const { data, error } = await supabase
-      .from('items')
+      .from('Items')
       .select()
       .eq('name', 'Test Item')
-      .order('title', { ascending: false });
+      ;
 
     if (error) throw error;
 
