@@ -7,8 +7,11 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function handler(event, context) {
   try {
-    
-    const { data, error } = await supabase.from('Users').select('*');
+    const { data, error } = await supabase
+      .from('items')
+      .select()
+      .eq('name', 'Test Item')
+      .order('title', { ascending: false });
 
     if (error) throw error;
 
@@ -23,3 +26,4 @@ export async function handler(event, context) {
     };
   }
 }
+
