@@ -7,7 +7,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function handler(event, context) {
   try {
-    // Example: Fetch all users from "users" table
+    
     const { data, error } = await supabase.from('users').select('*');
 
     if (error) throw error;
