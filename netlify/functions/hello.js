@@ -8,21 +8,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function handler(event, context) {
   try {
     const { data, error } = await supabase
-
-         .from("Users")
-         .select()
-         .eq("email", "testuser@fakeemail.com")
-      // .from('Items')
-      // .select()
-      // .eq('name', 'Test Item')
+      .from('Items')
+      .select("*")
+      .eq('name', 'Test Item')
       ;
 
-      return_data = data
+    
     if (error) throw error;
 
     return {
       statusCode: 200,
-      body: JSON.stringify(return_data)
+      body: JSON.stringify(data)
     };
   } catch (error) {
     return {
