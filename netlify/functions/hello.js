@@ -8,7 +8,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function handler(event, context) {
   try {
     
-    const { data, error } = await supabase.from('users').select('*');
+    const { data, error } = await supabase.from('Users').select('*');
 
     if (error) throw error;
 
