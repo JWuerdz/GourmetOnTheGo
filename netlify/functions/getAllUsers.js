@@ -9,8 +9,7 @@ export async function handler(event, context) {
   try {
     const { data, error } = await supabase
       .from('Users')
-      .select()
-      .eq('email', 'testuser@fakeemail.com')
+      .select('*')
       ;
 
     
