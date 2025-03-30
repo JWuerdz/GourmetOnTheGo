@@ -1,3 +1,4 @@
+// src/pages/MenuPage.jsx
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import TopHeader from "../components/TopHeader.jsx";
@@ -36,6 +37,7 @@ const MenuPage = () => {
   }, []);
 
   useEffect(() => {
+    // Load cart from sessionStorage if you want to persist cart locally
     const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
@@ -112,7 +114,9 @@ const MenuPage = () => {
             {items.map((item) => (
                 <Tilt key={item.id} {...defaultTiltOptions}>
                   <motion.div
-                      className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
+                      className={`menu-item ${
+                          addedItemId === item.id ? "added-animation" : ""
+                      }`}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       whileHover={{ scale: 1.05 }}

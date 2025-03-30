@@ -1,4 +1,4 @@
-// AdminPage.jsx
+// src/pages/AdminPage.jsx
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext.jsx";
@@ -13,7 +13,7 @@ const AdminPage = () => {
     const handleEdit = (item) => {
         setEditingItem(item);
         setNewItem(item);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const handleSubmit = (e) => {
@@ -54,7 +54,9 @@ const AdminPage = () => {
                         placeholder="Price"
                         step="0.01"
                         value={newItem.price}
-                        onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
+                        onChange={(e) =>
+                            setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })
+                        }
                         required
                     />
                     <button type="submit" className="save-button">
@@ -63,7 +65,7 @@ const AdminPage = () => {
                 </form>
 
                 <div className="items-list">
-                    {items.map(item => (
+                    {items.map((item) => (
                         <div key={item.id} className="admin-item glow-hover">
                             <h3>{item.name}</h3>
                             <p>{item.description}</p>
