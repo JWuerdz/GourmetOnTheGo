@@ -1,28 +1,59 @@
-// AdminPage.jsx
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext.jsx";
 import "./AdminPage.css";
 
 const AdminPage = () => {
-    const { items, addItem, updateItem, removeItem } = useContext(ItemsContext);
+    const {
+        items,
+        addItem,
+        updateItem,
+        removeItem,
+        archiveItem,
+        unarchiveItem,
+    } = useContext(ItemsContext);
+
     const [editingItem, setEditingItem] = useState(null);
-    const [newItem, setNewItem] = useState({ name: "", description: "", price: "" });
+    const [newItem, setNewItem] = useState({
+        name: "",
+        description: "",
+        price: "",
+    });
+
     const navigate = useNavigate();
 
+    // Populate the form for editing an item
     const handleEdit = (item) => {
         setEditingItem(item);
-        setNewItem(item);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setNewItem({
+            name: item.name,
+            description: item.description,
+            price: item.price,
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    // Toggle archive/unarchive for an item
+    const handleToggleArchive = (item) => {
+        if (item.archived) {
+            unarchiveItem(item.id);
+        } else {
+            archiveItem(item.id);
+        }
+    };
+
+    // Submit the form to add or update an item
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editingItem) {
             updateItem(editingItem.id, newItem);
         } else {
-            addItem(newItem);
+            addItem({
+                ...newItem,
+                archived: false,
+            });
         }
+        // Clear form after submission
         setNewItem({ name: "", description: "", price: "" });
         setEditingItem(null);
     };
@@ -46,7 +77,9 @@ const AdminPage = () => {
                     <textarea
                         placeholder="Description"
                         value={newItem.description}
-                        onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+                        onChange={(e) =>
+                            setNewItem({ ...newItem, description: e.target.value })
+                        }
                         required
                     />
                     <input
@@ -54,7 +87,12 @@ const AdminPage = () => {
                         placeholder="Price"
                         step="0.01"
                         value={newItem.price}
-                        onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
+                        onChange={(e) =>
+                            setNewItem({
+                                ...newItem,
+                                price: parseFloat(e.target.value) || 0,
+                            })
+                        }
                         required
                     />
                     <button type="submit" className="save-button">
@@ -63,17 +101,24 @@ const AdminPage = () => {
                 </form>
 
                 <div className="items-list">
-                    {items.map(item => (
-                        <div key={item.id} className="admin-item glow-hover">
-                            <h3>{item.name}</h3>
-                            <p>{item.description}</p>
-                            <p className="item-price">${item.price.toFixed(2)}</p>
-                            <div className="item-actions">
-                                <button onClick={() => handleEdit(item)}>Edit</button>
-                                <button onClick={() => removeItem(item.id)}>Delete</button>
+                    {items
+                        .filter((item) => item !== null) // Defensive check
+                        .map((item) => (
+                            <div key={item.id} className="admin-item glow-hover">
+                                <h3 style={{ color: item.archived ? "red" : "inherit" }}>
+                                    {item.name} {item.archived && "(Archived)"}
+                                </h3>
+                                <p>{item.description}</p>
+                                <p className="item-price">${item.price.toFixed(2)}</p>
+                                <div className="item-actions">
+                                    <button onClick={() => handleEdit(item)}>Edit</button>
+                                    <button onClick={() => removeItem(item.id)}>Delete</button>
+                                    <button onClick={() => handleToggleArchive(item)}>
+                                        {item.archived ? "Unarchive" : "Archive"}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
         </div>

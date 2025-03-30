@@ -1,4 +1,4 @@
-// netlify/functions/getAllItems.js
+// netlify/functions/deleteItem.js
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -8,14 +8,20 @@ const supabase = createClient(
 
 export async function handler(event, context) {
     try {
-        // 1) Fetch all items from "Items" table
-        const { data, error } = await supabase.from("Items").select("*");
+        const body = JSON.parse(event.body);
+        const { id } = body;
+
+        const { data, error } = await supabase
+            .from("Items")
+            .delete()
+            .eq("id", id)
+            .single();
+
         if (error) throw error;
 
-        // 2) Return them as JSON
         return {
             statusCode: 200,
-            body: JSON.stringify(data),
+            body: JSON.stringify({ success: true, deletedItem: data }),
         };
     } catch (err) {
         return {

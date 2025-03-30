@@ -1,40 +1,103 @@
-// context/ItemsContext.jsx (new file)
 import React, { createContext, useState, useEffect } from "react";
 
 export const ItemsContext = createContext();
 
 export const ItemsProvider = ({ children }) => {
-    const [items, setItems] = useState(() => {
-        const saved = localStorage.getItem("menuItems");
-        return saved ? JSON.parse(saved) : [
-            { id: 1, name: "Pizza Margherita", description: "Classic pizza with tomato sauce, mozzarella, and basil", price: 10.0 },
-            { id: 2, name: "Cheeseburger", description: "Juicy burger with cheese, lettuce, tomato, and pickles", price: 8.0 },
-            { id: 3, name: "Caesar Salad", description: "Romaine lettuce with Caesar dressing, croutons, and parmesan cheese", price: 6.0 },
-            { id: 4, name: "Spaghetti Bolognese", description: "Pasta with rich beef sauce and parmesan cheese", price: 12.5 },
-            { id: 5, name: "Grilled Chicken Sandwich", description: "Grilled chicken, lettuce, tomato, and garlic mayo on ciabatta", price: 9.5 },
-            { id: 6, name: "Mushroom Risotto", description: "Creamy risotto with wild mushrooms and truffle oil", price: 13.0 },
-            { id: 7, name: "Veggie Wrap", description: "Spinach wrap with hummus, grilled veggies, and feta cheese", price: 7.99 }
-        ];
-    });
+    const [items, setItems] = useState([]);
+
+    // Fetch items from Supabase via your Netlify function
+    const fetchItems = async () => {
+        try {
+            const response = await fetch("/.netlify/functions/getAllItems");
+            if (!response.ok) throw new Error("Failed to fetch items");
+            const data = await response.json();
+            setItems(data);
+        } catch (error) {
+            console.error("Error fetching items:", error);
+        }
+    };
 
     useEffect(() => {
-        localStorage.setItem("menuItems", JSON.stringify(items));
-    }, [items]);
+        fetchItems();
+    }, []);
 
-    const addItem = (newItem) => {
-        setItems([...items, { ...newItem, id: Date.now() }]);
+    // Add item (insert into DB)
+    const addItem = async (newItem) => {
+        try {
+            const response = await fetch("/.netlify/functions/addItem", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newItem),
+            });
+            if (!response.ok) throw new Error("Failed to add item");
+            await response.json();
+            fetchItems(); // re-fetch to update state
+        } catch (error) {
+            console.error("Error adding item:", error);
+        }
     };
 
-    const updateItem = (id, updatedItem) => {
-        setItems(items.map(item => item.id === id ? { ...item, ...updatedItem } : item));
+    // Update item (general update, used also for archiving)
+    const updateItem = async (id, updatedFields) => {
+        try {
+            const response = await fetch("/.netlify/functions/updateItem", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id, ...updatedFields }),
+            });
+            if (!response.ok) throw new Error("Failed to update item");
+            await response.json();
+            fetchItems();
+        } catch (error) {
+            console.error("Error updating item:", error);
+        }
     };
 
-    const removeItem = (id) => {
-        setItems(items.filter(item => item.id !== id));
+    // Remove item (delete from DB)
+    const removeItem = async (id) => {
+        try {
+            const response = await fetch("/.netlify/functions/deleteItem", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id }),
+            });
+            if (!response.ok) throw new Error("Failed to delete item");
+            await response.json();
+            fetchItems();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
+    };
+
+    // Archive item: set archived to true
+    const archiveItem = async (id) => {
+        try {
+            await updateItem(id, { archived: true });
+        } catch (error) {
+            console.error("Error archiving item:", error);
+        }
+    };
+
+    // Unarchive item: set archived to false
+    const unarchiveItem = async (id) => {
+        try {
+            await updateItem(id, { archived: false });
+        } catch (error) {
+            console.error("Error unarchiving item:", error);
+        }
     };
 
     return (
-        <ItemsContext.Provider value={{ items, addItem, updateItem, removeItem }}>
+        <ItemsContext.Provider
+            value={{
+                items,
+                addItem,
+                updateItem,
+                removeItem,
+                archiveItem,
+                unarchiveItem,
+            }}
+        >
             {children}
         </ItemsContext.Provider>
     );

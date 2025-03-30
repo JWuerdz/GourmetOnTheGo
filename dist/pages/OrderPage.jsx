@@ -1,10 +1,11 @@
+// src/pages/OrderPage.jsx
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Added for navigation
+import { useNavigate } from "react-router-dom";
 import "./OrderPage.css";
 
 const OrderPage = () => {
   const [cart, setCart] = useState([]);
-  const navigate = useNavigate(); // Added for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Load the cart from sessionStorage when the page loads
@@ -18,15 +19,9 @@ const OrderPage = () => {
     setCart([]);
   };
 
-  // Checkout Button Handler
-  const handleCheckout = () => {
-    alert("Proceeding to checkout!");
-    // In a real app, you'd navigate to a payment page or handle payment logic
-  };
-
-  // Function to remove or decrement an item in the cart
+  // Decrement or remove an item in the cart
   const handleRemoveOne = (itemId) => {
-    let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const index = storedCart.findIndex((cartItem) => cartItem.id === itemId);
 
     if (index !== -1) {
@@ -41,7 +36,42 @@ const OrderPage = () => {
   };
 
   // Calculate subtotal
-  const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+  const subtotal = cart.reduce(
+      (sum, item) => sum + item.price * (item.quantity || 1),
+      0
+  );
+
+  // Checkout Button Handler (creates order in Supabase)
+  const handleCheckout = async () => {
+    try {
+      // 1) Make a POST request to your createOrder Netlify function
+      const response = await fetch("/.netlify/functions/createOrder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cart,
+          // userId: 1, // Optionally pass a userId if needed
+        }),
+      });
+
+      // 2) Check if request succeeded
+      if (!response.ok) {
+        throw new Error("Failed to create order in database");
+      }
+
+      const data = await response.json();
+      console.log("Order created:", data);
+
+      // 3) Clear the cart & show success or navigate
+      sessionStorage.removeItem("cart");
+      setCart([]);
+      alert("Order placed successfully!");
+      // navigate("/thank-you"); // if you have a thank-you page
+    } catch (error) {
+      console.error(error);
+      alert("Error creating order. Please try again.");
+    }
+  };
 
   return (
       <div className="order-container">
