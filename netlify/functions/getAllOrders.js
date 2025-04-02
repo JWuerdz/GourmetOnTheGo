@@ -8,16 +8,14 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function handler(event, context) {
   try {
     const { data, error } = await supabase
-      .from('Orders')
-      .select('*')
-      ;
+        .from('Orders')
+        .select('*');
 
-    
     if (error) throw error;
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     };
   } catch (error) {
     return {

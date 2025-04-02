@@ -6,23 +6,18 @@ const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function handler(event, context) {
-  try {
-    const { data, error } = await supabase
-      .from('Items')
-      .select('*')
-      ;
+    try {
+        const { data, error } = await supabase.from('Items').select('*');
+        if (error) throw error;
 
-    
-    if (error) throw error;
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data)
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
-    };
-  }
+        return {
+            statusCode: 200,
+            body: JSON.stringify(data),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: error.message }),
+        };
+    }
 }
