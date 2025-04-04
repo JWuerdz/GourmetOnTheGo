@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function handler(event, context) {
     try {
         const body = JSON.parse(event.body);
-        console.log("addItem body:", body);
+        console.log("PRINTING JSON.parse(event.body)", body);
 
         const { data, error } = await supabase
             .from("Items")
