@@ -16,8 +16,11 @@ const AdminPage = () => {
     const [editingItem, setEditingItem] = useState(null);
     const [newItem, setNewItem] = useState({
         name: "",
-        description: "",
         price: "",
+        quantity: "",
+        category: "",
+        description: ""
+        
     });
 
     const navigate = useNavigate();
@@ -50,7 +53,7 @@ const AdminPage = () => {
         } else {
             addItem({
                 ...newItem,
-                archived: false,
+                isActive: false,
             });
         }
         // Clear form after submission
