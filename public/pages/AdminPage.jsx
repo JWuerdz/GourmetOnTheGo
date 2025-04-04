@@ -135,7 +135,7 @@ const AdminPage = () => {
                                 setNewItem({ ...newItem, isActive: e.target.checked })
                             }
                         />
-                        {" "}Active
+                        {/* {" "}Active */}
                     </label>
 
                     <button type="submit" className="save-button">
