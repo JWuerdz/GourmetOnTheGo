@@ -16,13 +16,16 @@ export async function handler(event, context) {
             .insert([
                 {
                     name: body.name,
+                    price: body.price,
+                    quantity: body.quantity,
+                    category: body.category,
+                    isActive: body.isActive, 
                     // Use 'description' exactly, to match your table column
                     description: body.description,
-                    price: body.price,
-                    archived: body.archived ?? false,
+                    
                 },
             ])
-            .single();
+            
 
         if (error) {
             console.error("Supabase error in addItem:", error);
