@@ -1,25 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23d5ab, #23a6d5);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    /* Use the same soft, warm gradient background as other pages */
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 .login-page {
     max-width: 400px;
-    margin: 4rem auto;
+    margin: 6rem auto; /* Ensure enough top margin so it's not too close to the top (or nav bar, if present) */
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(8px);
@@ -27,7 +21,7 @@ body, html {
 
 .login-page h2 {
     font-size: 2rem;
-    color: #333;
+    color: #d35400; /* Consistent accent color */
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -54,7 +48,7 @@ input {
 
 input:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(35, 213, 171, 0.6);
+    box-shadow: 0 0 10px rgba(211, 84, 0, 0.6);
 }
 
 .admin-toggle {
@@ -70,7 +64,7 @@ input:focus {
 }
 
 .form-btn {
-    background-color: #23a6d5;
+    background-color: #d35400;
     color: white;
     padding: 0.8rem;
     border: none;
@@ -82,7 +76,7 @@ input:focus {
 
 .form-btn:hover {
     transform: scale(1.05);
-    background-color: #1b7ea7;
+    background-color: #b03900;
 }
 
 .toggle-text {
@@ -94,14 +88,14 @@ input:focus {
 .toggle-btn {
     background: none;
     border: none;
-    color: #23a6d5;
+    color: #d35400;
     cursor: pointer;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .toggle-btn:hover {
-    color: #1b7ea7;
+    color: #b03900;
     text-decoration: underline;
 }
 
@@ -111,19 +105,19 @@ input:focus {
 }
 
 .back-link a {
-    color: #23a6d5;
+    color: #d35400;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .back-link a:hover {
-    color: #1b7ea7;
+    color: #b03900;
 }
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .login-page {
         padding: 1.5rem;
-        margin: 2rem 1rem;
+        margin: 3rem 1rem;
     }
 }
