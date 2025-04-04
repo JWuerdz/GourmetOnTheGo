@@ -29,6 +29,7 @@ export const ItemsProvider = ({ children }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newItem),
             });
+            console.log(response.body);
             if (!response.ok) throw new Error("Failed to add item");
             await response.json();
             fetchItems(); // re-fetch to update state

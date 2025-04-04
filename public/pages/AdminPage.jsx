@@ -16,11 +16,12 @@ const AdminPage = () => {
     // Include all columns from your DB: name, description, price, quantity, category, isActive
     const [newItem, setNewItem] = useState({
         name: "",
-        description: "",
         price: "",
         quantity: "",
         category: "",
         isActive: true, // default to active
+        description: ""
+
     });
 
     const navigate = useNavigate();
@@ -59,6 +60,7 @@ const AdminPage = () => {
             // Add a new item
             addItem({
                 ...newItem,
+                isActive: false,
                 price: parseFloat(newItem.price) || 0,
                 quantity: parseInt(newItem.quantity, 10) || 0,
             });

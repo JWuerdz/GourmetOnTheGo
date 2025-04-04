@@ -9,20 +9,23 @@ const supabase = createClient(
 export async function handler(event, context) {
     try {
         const body = JSON.parse(event.body);
-        console.log("addItem body:", body);
+        console.log("PRINTING JSON.parse(event.body)", body);
 
         const { data, error } = await supabase
             .from("Items")
             .insert([
                 {
                     name: body.name,
+                    price: body.price,
+                    quantity: body.quantity,
+                    category: body.category,
+                    isActive: body.isActive, 
                     // Use 'description' exactly, to match your table column
                     description: body.description,
-                    price: body.price,
-                    archived: body.archived ?? false,
+                    
                 },
             ])
-            .single();
+            
 
         if (error) {
             console.error("Supabase error in addItem:", error);
