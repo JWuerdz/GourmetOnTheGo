@@ -8,11 +8,13 @@ const supabase = createClient(
 
 export async function handler(event, context) {
     try {
-        // 1) Fetch all items from "Items" table
-        const { data, error } = await supabase.from("Items").select("*");
+        const { data, error } = await supabase
+            .from("Items")
+            .select("*")
+            .eq("isActive", true); 
+
         if (error) throw error;
 
-        // 2) Return them as JSON
         return {
             statusCode: 200,
             body: JSON.stringify(data),
@@ -24,3 +26,4 @@ export async function handler(event, context) {
         };
     }
 }
+
