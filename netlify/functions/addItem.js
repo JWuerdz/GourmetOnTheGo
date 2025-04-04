@@ -1,7 +1,6 @@
 // netlify/functions/addItem.js
 import { createClient } from "@supabase/supabase-js";
 
-// Create the Supabase client using environment variables
 const supabase = createClient(
     process.env.VITE_SUPABASE_URL,
     process.env.VITE_SUPABASE_ANON_KEY
@@ -9,34 +8,33 @@ const supabase = createClient(
 
 export async function handler(event, context) {
     try {
-        // 1) Parse the incoming request body to get item details
         const body = JSON.parse(event.body);
+        console.log("addItem body:", body);
 
-        // 2) Insert the new item into your "Items" table
-        //    Make sure these fields (name, description, price) exist in the table
         const { data, error } = await supabase
             .from("Items")
             .insert([
                 {
                     name: body.name,
+                    // Use 'description' exactly, to match your table column
                     description: body.description,
                     price: body.price,
-                    // add more columns here if your table has them
+                    archived: body.archived ?? false,
                 },
             ])
-            .single(); // single() returns just one row instead of an array
+            .single();
 
         if (error) {
+            console.error("Supabase error in addItem:", error);
             throw error;
         }
 
-        // 3) Return the newly inserted item
         return {
             statusCode: 200,
-            body: JSON.stringify(data), // "data" is the new row from the DB
+            body: JSON.stringify(data),
         };
     } catch (err) {
-        // 4) Handle errors
+        console.error("Error in addItem:", err);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: err.message }),

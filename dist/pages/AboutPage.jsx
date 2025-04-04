@@ -5,40 +5,41 @@ import "./AboutPage.css";
 const AboutPage = () => {
     return (
         <div className="about-page">
-            <header className="about-header">
-                <div className="logo">Gourmet 2 Go</div>
-                <nav className="nav-menu">
-                    <Link to="/menu" className="nav-link">Menu</Link>
-                    <Link to="/order" className="nav-link">Order</Link>
-                    <Link to="/login" className="nav-link">Login</Link>
-                </nav>
-            </header>
+            {/* Warm integrated nav bar */}
+            <nav className="nav-bar">
+                <Link to="/menu" className="nav-link">Menu</Link>
+                <Link to="/order" className="nav-link">Order</Link>
+                <Link to="/login" className="nav-link">Login</Link>
+            </nav>
 
-            <section className="about-content">
+            <div className="about-container">
                 <h1>About Gourmet 2 Go</h1>
                 <p>
-                    Welcome to <strong>Gourmet 2 Go</strong>, your premier on-campus spot for gourmet dishes made fresh daily. We offer students and faculty delicious meals right here on campus, combining convenience with exceptional culinary quality.
+                    Welcome to <strong>Gourmet 2 Go</strong>, your premier on-campus spot for gourmet dishes made fresh daily.
+                    We combine convenience with exceptional culinary quality, ensuring every meal is a memorable experience.
                 </p>
 
                 <h2>Our Story</h2>
                 <p>
-                    Founded in 2025, Gourmet 2 Go started with a simple goal: transform everyday campus dining into memorable culinary experiences. Our skilled chefs use fresh, locally sourced ingredients to craft flavorful meals designed especially for the campus community.
+                    Founded in 2025, Gourmet 2 Go began with a simple goal: to transform everyday campus dining into a gourmet experience.
+                    Our dedicated chefs use fresh, locally sourced ingredients to craft a variety of delectable dishes.
                 </p>
 
                 <h2>Our Mission</h2>
                 <p>
-                    At Gourmet 2 Go, our mission is to offer extraordinary food experiences right at your fingertips. Whether you're quickly grabbing lunch, enjoying dinner after classes, or sharing meals with friends, we're dedicated to making your campus dining exceptional.
+                    Our mission is to provide students and faculty with high-quality, affordable gourmet food right on campus,
+                    making every meal a delightful culinary adventure.
                 </p>
 
-                <h2>Why Students Choose Us</h2>
+                <h2>Why Choose Us?</h2>
                 <ul>
                     <li>Fresh, locally sourced ingredients</li>
-                    <li>Exciting and diverse menu options</li>
+                    <li>Diverse and exciting menu options</li>
                     <li>Affordable gourmet quality</li>
                     <li>Convenient on-campus location</li>
                     <li>Friendly and welcoming atmosphere</li>
                 </ul>
-            </section>
+            </div>
 
             <footer className="about-footer">
                 <p>© {new Date().getFullYear()} Gourmet 2 Go. All rights reserved.</p>

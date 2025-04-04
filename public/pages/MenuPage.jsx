@@ -1,4 +1,3 @@
-// src/pages/MenuPage.jsx
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import TopHeader from "../components/TopHeader.jsx";
@@ -37,7 +36,7 @@ const MenuPage = () => {
   }, []);
 
   useEffect(() => {
-    // Load cart from sessionStorage if you want to persist cart locally
+    // Load cart from sessionStorage (if used)
     const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
@@ -54,14 +53,12 @@ const MenuPage = () => {
     setCart(storedCart);
     setAddedItemId(item.id);
     setCartOpen(true);
-
     setTimeout(() => setAddedItemId(null), 1000);
   };
 
   const handleRemoveOne = (itemId) => {
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const itemIndex = storedCart.findIndex((item) => item.id === itemId);
-
     if (itemIndex !== -1) {
       if (storedCart[itemIndex].quantity > 1) {
         storedCart[itemIndex].quantity -= 1;
@@ -69,12 +66,14 @@ const MenuPage = () => {
         storedCart.splice(itemIndex, 1);
       }
     }
-
     sessionStorage.setItem("cart", JSON.stringify(storedCart));
     setCart(storedCart);
   };
 
   const toggleCart = () => setCartOpen(!cartOpen);
+
+  // Only display non-null items that are not archived
+  const visibleItems = items.filter((item) => item && !item.archived);
 
   return (
       <motion.div
@@ -111,7 +110,7 @@ const MenuPage = () => {
           </motion.h1>
 
           <div className="menu-list">
-            {items.map((item) => (
+            {visibleItems.map((item) => (
                 <Tilt key={item.id} {...defaultTiltOptions}>
                   <motion.div
                       className={`menu-item ${
@@ -128,7 +127,6 @@ const MenuPage = () => {
                         <span className="food-price">${item.price.toFixed(2)}</span>
                       </div>
                     </div>
-
                     <motion.button
                         className="add-btn"
                         onClick={() => handleAddToCart(item)}

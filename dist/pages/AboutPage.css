@@ -1,60 +1,68 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-    --primary-neon: #00ffff;
-    --secondary-neon: #ff00ff;
-    --background-color: #0d0d0d;
-    --text-color: #e0e0e0;
-    --accent-color: #ff9900;
+    /* Neon-themed color variables */
+    --primary-neon: #00ffff;      /* Cyan glow */
+    --secondary-neon: #ff00ff;    /* Magenta glow */
+    --background-color: #0d0d0d;  /* Dark background */
+    --text-color: #e0e0e0;        /* Light text */
+    --accent-color: #ff9900;      /* Orange accent (optional) */
 }
 
+/* Global base styles */
 body, html {
-    background: var(--background-color);
-    color: var(--text-color);
-    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
 }
 
+/* Main container for the About page */
 .about-page {
-    padding: 2rem 3rem;
-    background: radial-gradient(circle at top left, #1a1a1a, #000);
     min-height: 100vh;
     box-shadow: inset 0 0 50px rgba(0, 255, 255, 0.2);
+    padding: 2rem;
+    padding-top: 80px; /* space for fixed nav */
+    background: radial-gradient(circle at top left, #1a1a1a, #000);
+    animation: fadeIn 1s ease;
 }
 
-.about-header {
+/* Neon-themed nav bar with only three links */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #1a1a1a;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding-bottom: 1rem;
+    padding: 1rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
 }
 
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--accent-color);
-    font-size: 1.8rem;
-    text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
-}
-
-.nav-menu .nav-link {
-    margin-left: 1.5rem;
+.nav-link {
+    margin: 0 1.5rem;
     color: var(--text-color);
     text-decoration: none;
     transition: color 0.3s ease, text-shadow 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
 }
 
-.nav-menu .nav-link:hover {
+.nav-link:hover {
     color: var(--primary-neon);
     text-shadow: 0 0 5px var(--primary-neon), 0 0 10px var(--primary-neon);
 }
 
+/* Main About content area */
 .about-content {
-    margin-top: 3rem;
     max-width: 900px;
+    margin: 3rem auto 0 auto;
 }
 
+/* Headings with neon-like accent color or glow */
 .about-content h1,
 .about-content h2 {
     font-family: 'Orbitron', sans-serif;
@@ -75,16 +83,19 @@ body, html {
     animation: fadeInLeft 1.2s ease;
 }
 
-.about-content p, .about-content li {
+/* Paragraph and list text with fade-up animation */
+.about-content p,
+.about-content li {
     font-size: 1rem;
     line-height: 1.7;
     margin-bottom: 1rem;
     animation: fadeInUp 1.5s ease;
 }
 
+/* Neon bullets in the list */
 .about-content ul {
-    padding-left: 1.5rem;
     list-style: none;
+    padding-left: 1.5rem;
 }
 
 .about-content ul li::before {
@@ -94,6 +105,7 @@ body, html {
     text-shadow: 0 0 5px var(--primary-neon);
 }
 
+/* Footer styling */
 .about-footer {
     margin-top: 4rem;
     padding-top: 1rem;
@@ -101,26 +113,6 @@ body, html {
     text-align: center;
     color: #888;
     animation: fadeIn 2s ease;
-}
-
-/* Futuristic Button (if needed) */
-.futuristic-button {
-    display: inline-block;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-    color: #0d0d0d;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 0 0 10px var(--primary-neon);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.futuristic-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px var(--secondary-neon);
 }
 
 /* Keyframe Animations */
@@ -148,47 +140,34 @@ body, html {
 @media (max-width: 768px) {
     .about-page {
         padding: 1.5rem;
+        padding-top: 80px;
     }
 
-    .logo {
-        font-size: 1.5rem;
-    }
-
-    .nav-menu .nav-link {
-        margin-left: 1rem;
+    .nav-link {
+        margin: 0 1rem;
     }
 
     .about-content h1 {
         font-size: 2.2rem;
     }
-
     .about-content h2 {
         font-size: 1.7rem;
     }
-
     .about-content p, .about-content li {
         font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
-    .about-header {
+    .nav-bar {
         flex-direction: column;
-        text-align: center;
     }
-
-    .nav-menu {
-        margin-top: 1rem;
+    .about-content {
+        margin-top: 2rem;
     }
-
-    .nav-menu .nav-link {
-        margin: 0 0.5rem;
-    }
-
     .about-content h1 {
         font-size: 1.8rem;
     }
-
     .about-content h2 {
         font-size: 1.5rem;
     }
