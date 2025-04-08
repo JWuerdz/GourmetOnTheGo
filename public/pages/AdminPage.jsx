@@ -102,7 +102,8 @@ const AdminPage = () => {
                     <input
                         type="number"
                         placeholder="Price"
-                        step="0.01"
+                        step="1"
+                        min="0"
                         value={newItem.price}
                         onChange={(e) =>
                             setNewItem({ ...newItem, price: e.target.value })
