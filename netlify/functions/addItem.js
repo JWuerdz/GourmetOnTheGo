@@ -16,10 +16,11 @@ export async function handler(event, context) {
             .insert([
                 {
                     name: body.name,
-                    // Use 'description' exactly, to match your table column
                     description: body.description,
                     price: body.price,
-                    archived: body.archived ?? false,
+                    quantity: body.quantity,
+                    category: body.category,
+                    isActive: body.isActive ?? true,
                 },
             ])
             .single();
