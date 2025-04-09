@@ -86,13 +86,13 @@ const MenuPage = () => {
           }}
       >
         {/* Possibly your top header (if it is also fixed or used for announcements) */}
-        <TopHeader
+        {/* <TopHeader
             cart={cart}
             cartOpen={cartOpen}
             setCartOpen={setCartOpen}
             handleRemoveOne={handleRemoveOne}
             goToOrderPage={() => navigate("/order")}
-        />
+        /> */}
 
         {/* Fixed nav bar */}
         <nav className="nav-bar">
