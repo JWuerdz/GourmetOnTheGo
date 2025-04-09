@@ -74,9 +74,6 @@ const MenuPage = () => {
     setCart(storedCart);
   };
 
-  // Toggle cart drawer
-  const toggleCart = () => setCartOpen(!cartOpen);
-
   // Filter out any archived items
   const visibleItems = items.filter((item) => item && !item.archived);
 
@@ -89,22 +86,18 @@ const MenuPage = () => {
           }}
       >
         {/* Possibly your top header (if it is also fixed or used for announcements) */}
-        <TopHeader
+        {/* <TopHeader
             cart={cart}
             cartOpen={cartOpen}
             setCartOpen={setCartOpen}
             handleRemoveOne={handleRemoveOne}
             goToOrderPage={() => navigate("/order")}
-        />
+        /> */}
 
         {/* Fixed nav bar */}
         <nav className="nav-bar">
-          <Link to="/">Home</Link>
-          <Link to="/menu">Menu</Link>
-          <Link to="/order">Order</Link>
           <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
-          <Link to="/admin">Admin</Link>
         </nav>
 
         <motion.div className="menu-container" style={{ y }} ref={containerRef}>
@@ -132,47 +125,16 @@ const MenuPage = () => {
                         <span className="food-price">${item.price.toFixed(2)}</span>
                       </div>
                     </div>
-                    <motion.button
-                        className="add-btn"
-                        onClick={() => handleAddToCart(item)}
-                        whileHover={{
-                          scale: 1.1,
-                          background: "linear-gradient(45deg, #ff5e62, #d35400)",
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                      <span className="btn-shine"></span>
-                      <span className="scanline"></span>
-                      Add to Order
-                    </motion.button>
                   </motion.div>
                 </Tilt>
             ))}
           </div>
         </motion.div>
 
-        <motion.button
-            className="sticky-action-btn"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={() => navigate("/about")}
-        >
-          About
-        </motion.button>
+        <Link to="/about" class="about-link">
+        About
+        </Link>
 
-        <motion.button
-            className="sticky-cart-btn"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={toggleCart}
-        >
-          🛒
-          <motion.span key={cart.length} initial={{ scale: 0 }} animate={{ scale: 1 }}>
-            {cart.length}
-          </motion.span>
-        </motion.button>
       </motion.div>
   );
 };
