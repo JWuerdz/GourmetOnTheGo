@@ -274,5 +274,6 @@ h1 {
 
 .logo-text{
   color: #FFFFFF;
-  font-size: 5em;
+  font-size: 2em;
+  align-self:flex-start;
 }
