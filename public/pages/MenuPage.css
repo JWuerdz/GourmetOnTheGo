@@ -67,7 +67,7 @@ html {
   gap: 2rem;
   background-color: #333;
   padding: 2em;
-  padding-bottom: 2em;
+  margin-bottom: 2em;
   /* Remove margin-bottom and border-radius for a cleaner fixed bar */
   margin-bottom: 0;
   border-radius: 0;
