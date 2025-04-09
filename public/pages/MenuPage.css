@@ -271,3 +271,8 @@ h1 {
 .about-link:visited{
   color: #FFFFFF;
 }
+
+.logo-text{
+  color: #FFFFFF;
+  font-size: 5em;
+}
