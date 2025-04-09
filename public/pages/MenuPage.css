@@ -261,3 +261,13 @@ h1 {
     font-size: 0.9rem;
   }
 }
+
+.about-link{
+    align-self: center;
+    color: #FFFFFF;
+    
+}
+
+.about-link:visited{
+  color: #FFFFFF;
+}
