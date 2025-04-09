@@ -24,9 +24,11 @@ const MenuPage = () => {
   const [addedItemId, setAddedItemId] = useState(null);
   const containerRef = useRef(null);
 
+  // For parallax-like scrolling (optional)
   const { scrollYProgress } = useScroll({ container: containerRef });
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
+  // Rotating gradient angle
   const [gradientAngle, setGradientAngle] = useState(135);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,12 +37,13 @@ const MenuPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Load cart from sessionStorage on mount
   useEffect(() => {
-    // Load cart from sessionStorage (if used)
     const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
+  // Add items to cart
   const handleAddToCart = (item) => {
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const index = storedCart.findIndex((cartItem) => cartItem.id === item.id);
@@ -56,6 +59,7 @@ const MenuPage = () => {
     setTimeout(() => setAddedItemId(null), 1000);
   };
 
+  // Remove one item from cart
   const handleRemoveOne = (itemId) => {
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const itemIndex = storedCart.findIndex((item) => item.id === itemId);
@@ -70,9 +74,10 @@ const MenuPage = () => {
     setCart(storedCart);
   };
 
+  // Toggle cart drawer
   const toggleCart = () => setCartOpen(!cartOpen);
 
-  // Only display non-null items that are not archived
+  // Filter out any archived items
   const visibleItems = items.filter((item) => item && !item.archived);
 
   return (
@@ -83,6 +88,7 @@ const MenuPage = () => {
             backgroundSize: "400% 400%",
           }}
       >
+        {/* Possibly your top header (if it is also fixed or used for announcements) */}
         <TopHeader
             cart={cart}
             cartOpen={cartOpen}
@@ -91,6 +97,7 @@ const MenuPage = () => {
             goToOrderPage={() => navigate("/order")}
         />
 
+        {/* Fixed nav bar */}
         <nav className="nav-bar">
           <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
@@ -113,9 +120,7 @@ const MenuPage = () => {
             {visibleItems.map((item) => (
                 <Tilt key={item.id} {...defaultTiltOptions}>
                   <motion.div
-                      className={`menu-item ${
-                          addedItemId === item.id ? "added-animation" : ""
-                      }`}
+                      className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       whileHover={{ scale: 1.05 }}

@@ -8,13 +8,15 @@ html {
   overflow-x: hidden;
 }
 
+/* Increase top padding so that content is not behind the fixed nav bar */
 .menu-page {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
+  /* Bump up top padding to 140px for extra clearance under the nav bar */
   padding: 20px;
-  padding-top: 80px;
+  padding-top: 140px;
   position: relative;
   background: #f8f8f8;
   overflow: hidden;
@@ -53,15 +55,22 @@ html {
   to { transform: translate(-50%,-50%); }
 }
 
-/* Nav Bar */
+/* Fixed Nav Bar at the top */
 .nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
   display: flex;
   justify-content: center;
   gap: 2rem;
   background-color: #333;
   padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
+  /* Remove margin-bottom and border-radius for a cleaner fixed bar */
+  margin-bottom: 0;
+  border-radius: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .nav-bar a {
@@ -75,7 +84,7 @@ html {
   color: #ff5e62;
 }
 
-/* Container for the menu */
+/* Container for the menu items */
 .menu-container {
   display: flex;
   flex-direction: column;
@@ -242,11 +251,9 @@ h1 {
   .menu-list {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-
   h1 {
     font-size: 2.2rem;
   }
-
   .sticky-cart-btn {
     bottom: 10px;
     right: 10px;
