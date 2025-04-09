@@ -102,7 +102,6 @@ const MenuPage = () => {
           <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
           <Link to="/order">Order</Link>
-          <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
           <Link to="/admin">Admin</Link>
         </nav>

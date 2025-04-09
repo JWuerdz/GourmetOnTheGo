@@ -96,11 +96,9 @@ const MenuPage = () => {
 
         {/* Fixed nav bar */}
         <nav className="nav-bar">
-          <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
           <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
-          
         </nav>
 
         <motion.div className="menu-container" style={{ y }} ref={containerRef}>
@@ -134,14 +132,7 @@ const MenuPage = () => {
           </div>
         </motion.div>
 
-        <MotionLink
-          to="/about"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-        >
-          About
-        </MotionLink>
+        <Link to="/about">About</Link>
 
       </motion.div>
   );
