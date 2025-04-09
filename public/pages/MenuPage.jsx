@@ -130,11 +130,6 @@ const MenuPage = () => {
             ))}
           </div>
         </motion.div>
-
-        <Link to="/about" class="about-link">
-        About
-        </Link>
-
       </motion.div>
   );
 };
