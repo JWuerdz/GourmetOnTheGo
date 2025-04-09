@@ -96,7 +96,6 @@ const MenuPage = () => {
 
         {/* Fixed nav bar */}
         <nav className="nav-bar">
-          <Link to="/menu">Menu</Link>
           <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
         </nav>
