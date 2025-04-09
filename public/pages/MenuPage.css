@@ -272,8 +272,8 @@ h1 {
   color: #FFFFFF;
 }
 
-.logo-text{
+nav-bar > .logo-text{
   color: #FFFFFF;
   font-size: 2em;
-  align-self:flex-start;
+  margin-left: auto;
 }
