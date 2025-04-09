@@ -63,7 +63,7 @@ html {
   width: 100%;
   z-index: 999;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 2rem;
   background-color: #333;
   padding: 1rem;
@@ -272,8 +272,7 @@ h1 {
   color: #FFFFFF;
 }
 
-nav-bar > .logo-text{
+.logo-text{
   color: #FFFFFF;
   font-size: 2em;
-  margin-left: auto;
 }
