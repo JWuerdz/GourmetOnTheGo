@@ -151,15 +151,15 @@ const MenuPage = () => {
           </div>
         </motion.div>
 
-        <motion.button
-            className="sticky-action-btn"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            onClick={() => navigate("/about")}
+        <MotionLink
+          to="/about"
+          className="sticky-action-btn"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
         >
           About
-        </motion.button>
+        </MotionLink>
 
         <motion.button
             className="sticky-cart-btn"
