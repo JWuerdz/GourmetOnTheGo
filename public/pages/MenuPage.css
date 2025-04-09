@@ -63,7 +63,7 @@ html {
   width: 100%;
   z-index: 999;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 2rem;
   background-color: #333;
   padding: 2em;
@@ -271,4 +271,9 @@ h1 {
 
 .about-link:visited{
   color: #FFFFFF;
+}
+
+.logo-text{
+  color: #FFFFFF;
+  font-size: 2em;
 }
