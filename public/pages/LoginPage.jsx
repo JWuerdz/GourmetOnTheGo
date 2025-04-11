@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "../supabaseClient"; // make sure this path is correct
+import { supabase } from "../supabase/supabaseClient"; 
 import "./LoginPage.css";
 
 const LoginPage = () => {
