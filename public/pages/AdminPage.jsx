@@ -1,41 +1,31 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext.jsx";
-import { supabase } from "../supabaseClient";
-
 import "./AdminPage.css";
 
 const AdminPage = () => {
-    const { items, addItem, updateItem, removeItem } = useContext(ItemsContext);
+    const {
+        items,
+        addItem,
+        updateItem,
+        removeItem,
+    } = useContext(ItemsContext);
+
     const [editingItem, setEditingItem] = useState(null);
+
+    // Include all columns from your DB: name, description, price, quantity, category, isActive
     const [newItem, setNewItem] = useState({
         name: "",
         description: "",
         price: "",
         quantity: "",
         category: "",
-        isActive: true,
+        isActive: true, // default to active
     });
-
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState(null);
 
     const navigate = useNavigate();
 
-    // ✅ Check Supabase session on load
-    useEffect(() => {
-        const checkSession = async () => {
-            const { data, error } = await supabase.auth.getUser();
-            if (error || !data.user) {
-                navigate("/login"); // redirect if not logged in
-            } else {
-                setUser(data.user);
-                setLoading(false);
-            }
-        };
-        checkSession();
-    }, [navigate]);
-
+    // Populate the form for editing an item
     const handleEdit = (item) => {
         setEditingItem(item);
         setNewItem({
@@ -49,26 +39,31 @@ const AdminPage = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    // Toggle isActive instead of archived
     const handleToggleActive = (item) => {
+        // Flip isActive
         updateItem(item.id, { isActive: !item.isActive });
     };
 
+    // Submit the form to add or update an item
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editingItem) {
+            // Update existing item with all fields
             updateItem(editingItem.id, {
                 ...newItem,
                 price: parseFloat(newItem.price) || 0,
                 quantity: parseInt(newItem.quantity, 10) || 0,
             });
         } else {
+            // Add a new item
             addItem({
                 ...newItem,
                 price: parseFloat(newItem.price) || 0,
                 quantity: parseInt(newItem.quantity, 10) || 0,
             });
         }
-
+        // Clear form after submission
         setNewItem({
             name: "",
             description: "",
@@ -79,8 +74,6 @@ const AdminPage = () => {
         });
         setEditingItem(null);
     };
-
-    if (loading) return <div>Loading...</div>;
 
     return (
         <div className="admin-container">
@@ -134,6 +127,7 @@ const AdminPage = () => {
                             setNewItem({ ...newItem, category: e.target.value })
                         }
                     />
+                    {/* isActive checkbox */}
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -142,6 +136,7 @@ const AdminPage = () => {
                                 setNewItem({ ...newItem, isActive: e.target.checked })
                             }
                         />
+                        {/* {" "}Active */}
                     </label>
 
                     <button type="submit" className="save-button">
@@ -154,11 +149,14 @@ const AdminPage = () => {
                         .filter((item) => item !== null)
                         .map((item) => (
                             <div key={item.id} className="admin-item glow-hover">
+                                {/* If isActive is false, highlight name in red */}
                                 <h3 style={{ color: item.isActive ? "#4CAF50" : "red" }}>
-                                    {item.name} {!item.isActive && "(Inactive)"}
+                                    {item.name}{" "}
+                                    {!item.isActive && "(Inactive)"}
                                 </h3>
                                 <p>{item.description}</p>
                                 <p className="item-price">${item.price.toFixed(2)}</p>
+                                {/* Show quantity & category */}
                                 <p>Quantity: {item.quantity}</p>
                                 <p>Category: {item.category}</p>
                                 <p>Status: {item.isActive ? "Active" : "Inactive"}</p>
