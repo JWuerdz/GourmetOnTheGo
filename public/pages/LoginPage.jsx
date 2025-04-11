@@ -39,7 +39,7 @@ const LoginPage = () => {
                 alert("Invalid credentials.");
             }
         } else {
-            alert(Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password});
+            alert(`Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
             setIsLogin(true);
         }
     };
