@@ -1,26 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supabaseClient"; // make sure this path is correct
 import "./LoginPage.css";
 
 const LoginPage = () => {
-    const [isLogin, setIsLogin] = useState(true);
     const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
-    // Toggle between Login and Sign Up forms
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setIsAdmin(false);
-    };
-
-    // Handle form submission
-    const handleSubmit = (e) => {
+    // Handle form submission with Supabase Auth
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!username || !password) {
@@ -28,50 +17,44 @@ const LoginPage = () => {
             return;
         }
 
-        if (isLogin) {
-            if (isAdmin && username === "admin" && password === "admin123") {
+        try {
+            // Attempt to sign in with Supabase Auth
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: username, // Supabase treats username as email
+                password: password,
+            });
+
+            if (error) throw error;
+
+            // Check if user has the 'admin' role
+            const user = data.user;
+            const role = user?.user_metadata?.role;
+
+            if (role === "admin") {
                 alert("Admin login successful!");
                 navigate("/admin");
-            } else if (!isAdmin && username === "user" && password === "user123") {
-                alert("User login successful!");
-                navigate("/menu");
             } else {
-                alert("Invalid credentials.");
+                alert("You do not have admin access.");
             }
-        } else {
-            alert(`Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
-            setIsLogin(true);
+        } catch (error) {
+            alert(error.message || "Error logging in.");
         }
     };
 
     return (
         <div className="login-page">
-            <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+            <h2>Login</h2>
 
             <form className="form-container" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Username (Email)</label>
                 <input
                     id="username"
-                    type="text"
-                    placeholder="Enter username"
+                    type="email"
+                    placeholder="Enter email"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
                 />
-
-                {!isLogin && (
-                    <>
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </>
-                )}
 
                 <label htmlFor="password">Password</label>
                 <input
@@ -83,30 +66,10 @@ const LoginPage = () => {
                     required
                 />
 
-                {isLogin && (
-                    <div className="admin-toggle">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isAdmin}
-                                onChange={() => setIsAdmin(!isAdmin)}
-                            />
-                            Login as Admin
-                        </label>
-                    </div>
-                )}
-
                 <button type="submit" className="form-btn">
-                    {isLogin ? "Login" : "Sign Up"}
+                    Login
                 </button>
             </form>
-
-            <p className="toggle-text">
-                {isLogin ? "Don't have an account?" : "Already have an account?"}
-                <button onClick={toggleForm} className="toggle-btn">
-                    {isLogin ? "Sign Up" : "Login"}
-                </button>
-            </p>
 
             <p className="back-link">
                 <Link to="/menu">← Back to Menu</Link>
@@ -116,3 +79,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

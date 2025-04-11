@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supabaseClient"; // Ensure the path to your Supabase client is correct
 import TopHeader from "../components/TopHeader.jsx";
 import { ItemsContext } from "../context/ItemsContext.jsx";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -23,6 +24,7 @@ const MenuPage = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [addedItemId, setAddedItemId] = useState(null);
   const containerRef = useRef(null);
+  const [user, setUser] = useState(null); // Store the logged-in user
 
   // For parallax-like scrolling (optional)
   const { scrollYProgress } = useScroll({ container: containerRef });
@@ -41,10 +43,23 @@ const MenuPage = () => {
   useEffect(() => {
     const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     setCart(storedCart);
-  }, []);
+
+    // Check if the user is logged in
+    const sessionUser = supabase.auth.user();
+    if (sessionUser) {
+      setUser(sessionUser);
+    } else {
+      navigate("/login"); // Redirect to login if no user is logged in
+    }
+  }, [navigate]);
 
   // Add items to cart
   const handleAddToCart = (item) => {
+    if (!user) {
+      alert("Please log in to add items to the cart.");
+      return;
+    }
+
     let storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const index = storedCart.findIndex((cartItem) => cartItem.id === item.id);
     if (index !== -1) {
@@ -78,60 +93,61 @@ const MenuPage = () => {
   const visibleItems = items.filter((item) => item && !item.archived);
 
   return (
-      <motion.div
-          className="menu-page"
-          style={{
-            background: `linear-gradient(${gradientAngle}deg, #ff9966, #ff5e62, #d35400)`,
-            backgroundSize: "400% 400%",
-          }}
-      >
-        {/* Possibly your top header (if it is also fixed or used for announcements) */}
-        {/* <TopHeader
-            cart={cart}
-            cartOpen={cartOpen}
-            setCartOpen={setCartOpen}
-            handleRemoveOne={handleRemoveOne}
-            goToOrderPage={() => navigate("/order")}
-        /> */}
+    <motion.div
+      className="menu-page"
+      style={{
+        background: `linear-gradient(${gradientAngle}deg, #ff9966, #ff5e62, #d35400)`,
+        backgroundSize: "400% 400%",
+      }}
+    >
+      {/* Possibly your top header (if it is also fixed or used for announcements) */}
+      {/* <TopHeader
+          cart={cart}
+          cartOpen={cartOpen}
+          setCartOpen={setCartOpen}
+          handleRemoveOne={handleRemoveOne}
+          goToOrderPage={() => navigate("/order")}
+      /> */}
 
-        {/* Fixed nav bar */}
-        <nav className="nav-bar">
-          <p class="logo-text">Gourmet 2 Go</p>
-          <Link to="/login">Login</Link>
-          <Link to="/about">About</Link>
-        </nav>
+      {/* Fixed nav bar */}
+      <nav className="nav-bar">
+        <p className="logo-text">Gourmet 2 Go</p>
+        <Link to="/login">Login</Link>
+        <Link to="/about">About</Link>
+      </nav>
 
-        <motion.div className="menu-container" style={{ y }} ref={containerRef}>
-          <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-          >
-            Our Menu
-          </motion.h1>
+      <motion.div className="menu-container" style={{ y }} ref={containerRef}>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Our Menu
+        </motion.h1>
 
-          <div className="menu-list">
-            {visibleItems.map((item) => (
-                <Tilt key={item.id} {...defaultTiltOptions}>
-                  <motion.div
-                      className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      whileHover={{ scale: 1.05 }}
-                  >
-                    <div className="menu-info">
-                      <h3 className="food-name">{item.name}</h3>
-                      <p className="food-description">{item.description}</p>
-                      <div className="price-beam">
-                        <span className="food-price">${item.price.toFixed(2)}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                </Tilt>
-            ))}
-          </div>
-        </motion.div>
+        <div className="menu-list">
+          {visibleItems.map((item) => (
+            <Tilt key={item.id} {...defaultTiltOptions}>
+              <motion.div
+                className={`menu-item ${addedItemId === item.id ? "added-animation" : ""}`}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="menu-info">
+                  <h3 className="food-name">{item.name}</h3>
+                  <p className="food-description">{item.description}</p>
+                  <div className="price-beam">
+                    <span className="food-price">${item.price.toFixed(2)}</span>
+                  </div>
+                  <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+                </div>
+              </motion.div>
+            </Tilt>
+          ))}
+        </div>
       </motion.div>
+    </motion.div>
   );
 };
 
