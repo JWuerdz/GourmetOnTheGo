@@ -65,7 +65,7 @@ html, body {
     width: 100%;
     z-index: 999;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     gap: 2rem;
     padding: 1rem 2rem;
     background: linear-gradient(90deg, #ff5e62, #d35400);
