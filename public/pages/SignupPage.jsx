@@ -19,26 +19,35 @@ const SignUpPage = () => {
       return;
     }
 
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Supabase client:", supabase);
+
     try {
-      // Register the admin user
       const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Sign up error:", error);
+        throw error;
+      }
 
-      // After sign-up, update the user metadata to mark them as an admin
+      // Optional: Upsert user metadata (e.g., setting them as an admin)
       const { error: metadataError } = await supabase
-        .from("users") // Assuming you have a users table
+        .from("users") // Make sure this table exists!
         .upsert([
           {
-            id: data.user.id,
+            id: data?.user?.id,
             user_metadata: { role: "admin" },
           },
         ]);
 
-      if (metadataError) throw metadataError;
+      if (metadataError) {
+        console.error("Metadata error:", metadataError);
+        throw metadataError;
+      }
 
       alert("Admin account created successfully!");
       navigate("/admin");
