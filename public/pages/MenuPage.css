@@ -71,7 +71,7 @@ html {
   margin-bottom: 0;
   border-radius: 0;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  align-content: left;
+  align-items: left;
 }
 
 .nav-bar a {
@@ -276,4 +276,5 @@ h1 {
 .logo-text{
   color: #FFFFFF;
   font-size: 12pt;
+  align-self: left;
 }
