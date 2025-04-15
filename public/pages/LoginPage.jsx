@@ -21,6 +21,7 @@ const LoginPage = () => {
     }
 
     try {
+      // Attempt login
       const { data, error } = await supabase.auth.signInWithPassword({
         email: username,
         password: password,
@@ -28,11 +29,15 @@ const LoginPage = () => {
 
       if (error) throw error;
 
-      const user = data.user;
+      // Fetch the latest user info to get user_metadata
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
+      const user = userData.user;
       const role = user?.user_metadata?.role;
 
       if (role === "admin") {
-        localStorage.setItem("supabase_token", data.session.access_token); // Save token
+        localStorage.setItem("supabase_token", data.session.access_token); // Save token if needed
         alert("Admin login successful!");
         navigate("/admin");
       } else {
@@ -83,6 +88,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 
