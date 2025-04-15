@@ -7,11 +7,11 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [forgotPassword, setForgotPassword] = useState(false); // State for forgot password view
-  const [emailForReset, setEmailForReset] = useState(""); // Email input for password reset
+  const [resetEmail, setResetEmail] = useState(""); // State for reset email form
+  const [showResetForm, setShowResetForm] = useState(false); // State to toggle reset password form
   const navigate = useNavigate();
 
-  // Handle form submission for login
+  // Handle form submission with Supabase Auth
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,24 +47,17 @@ const LoginPage = () => {
     }
   };
 
-  // Handle password reset form submission
+  // Handle password reset
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!emailForReset) {
-      alert("Please enter your email address.");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const { error } = await supabase.auth.api.resetPasswordForEmail(emailForReset);
-
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail); // Corrected method
       if (error) throw error;
 
-      alert("Password reset email sent! Please check your inbox.");
-      setForgotPassword(false); // Close the reset form after successful submission
+      alert("Password reset link sent to your email.");
+      setShowResetForm(false); // Hide reset form after submission
     } catch (error) {
       alert(error.message || "Error sending password reset email.");
     } finally {
@@ -76,30 +69,32 @@ const LoginPage = () => {
     <div className="login-page">
       <h2>Login</h2>
 
-      {/* If forgotPassword is true, show the reset form */}
-      {forgotPassword ? (
-        <div className="reset-password-form">
-          <h3>Reset Your Password</h3>
-          <form onSubmit={handlePasswordReset}>
-            <label htmlFor="emailForReset">Email</label>
-            <input
-              id="emailForReset"
-              type="email"
-              placeholder="Enter your email"
-              value={emailForReset}
-              onChange={(e) => setEmailForReset(e.target.value)}
-              required
-            />
-            <button type="submit" disabled={loading}>
-              {loading ? "Sending..." : "Send Reset Link"}
-            </button>
-          </form>
+      {/* If reset form is shown, display it */}
+      {showResetForm ? (
+        <form className="form-container" onSubmit={handlePasswordReset}>
+          <label htmlFor="resetEmail">Enter your email</label>
+          <input
+            id="resetEmail"
+            type="email"
+            placeholder="Enter email"
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            required
+          />
+          <button type="submit" className="form-btn" disabled={loading}>
+            {loading ? "Sending reset email..." : "Send Reset Link"}
+          </button>
           <p>
-            <span onClick={() => setForgotPassword(false)}>← Back to Login</span>
+            Remembered your password?{" "}
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => setShowResetForm(false)}
+            >
+              Go back to login
+            </span>
           </p>
-        </div>
+        </form>
       ) : (
-        // Login form
         <form className="form-container" onSubmit={handleSubmit}>
           <label htmlFor="username">Username (Email)</label>
           <input
@@ -125,11 +120,13 @@ const LoginPage = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          <p
-            className="forgot-password-link"
-            onClick={() => setForgotPassword(true)} // Show reset password form
-          >
-            Forgot password?
+          <p>
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => setShowResetForm(true)}
+            >
+              Forgot password?
+            </span>
           </p>
         </form>
       )}
@@ -142,6 +139,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 
