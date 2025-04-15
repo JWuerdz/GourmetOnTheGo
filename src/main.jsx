@@ -13,6 +13,7 @@ import OrderPage from "../public/pages/OrderPage.jsx";
 import LoginPage from "../public/pages/LoginPage.jsx";
 import AdminPage from "../public/pages/AdminPage.jsx";
 import AboutPage from "../public/pages/AboutPage.jsx";
+import SignUpPage from "../public/pages/SignupPage.jsx";
 
 // Styles
 import "../public/index.css";
@@ -36,6 +37,7 @@ root.render(
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/admin" element={<AdminPage />} />
                         <Route path="/about" element={<AboutPage />} />
+                        <Route path="/signup" element={<SignUpPage />} />
 
                         {/* Fallback route: anything unknown goes to "/" */}
                         <Route path="*" element={<Navigate to="/" replace />} />
