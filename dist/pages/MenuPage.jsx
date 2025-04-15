@@ -86,17 +86,17 @@ const MenuPage = () => {
           }}
       >
         {/* Possibly your top header (if it is also fixed or used for announcements) */}
-        <TopHeader
+        {/* <TopHeader
             cart={cart}
             cartOpen={cartOpen}
             setCartOpen={setCartOpen}
             handleRemoveOne={handleRemoveOne}
             goToOrderPage={() => navigate("/order")}
-        />
+        /> */}
 
         {/* Fixed nav bar */}
         <nav className="nav-bar">
-          <Link to="/menu">Menu</Link>
+          <p class="logo-text">Gourmet 2 Go</p>
           <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
         </nav>
@@ -131,9 +131,6 @@ const MenuPage = () => {
             ))}
           </div>
         </motion.div>
-
-        <Link to="/about">About</Link>
-
       </motion.div>
   );
 };
