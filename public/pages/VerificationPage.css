@@ -8,9 +8,9 @@ body, html {
     background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
 }
 
-.reset-password-page {
+.verify-page {
     max-width: 400px;
-    margin: 6rem auto; /* Ensure enough top margin so it's not too close to the top (or nav bar, if present) */
+    margin: 6rem auto;
     padding: 2rem;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
@@ -18,9 +18,9 @@ body, html {
     backdrop-filter: blur(8px);
 }
 
-.reset-password-page h2 {
+.verify-page h2 {
     font-size: 2rem;
-    color: #d35400; /* Consistent accent color */
+    color: #d35400;
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -31,26 +31,7 @@ body, html {
     gap: 1rem;
 }
 
-label {
-    font-weight: 600;
-    color: #333;
-}
-
-input {
-    padding: 0.8rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #f1f1f1;
-    font-size: 1rem;
-    transition: box-shadow 0.3s;
-}
-
-input:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(211, 84, 0, 0.6);
-}
-
-.form-btn {
+.verify-btn {
     background-color: #d35400;
     color: white;
     padding: 0.8rem;
@@ -61,15 +42,9 @@ input:focus {
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.form-btn:hover {
+.verify-btn:hover {
     transform: scale(1.05);
     background-color: #b03900;
-}
-
-.error-message {
-    color: red;
-    font-size: 0.9rem;
-    text-align: center;
 }
 
 .back-link {
@@ -87,9 +62,30 @@ input:focus {
     color: #b03900;
 }
 
+.success-message {
+    font-size: 1.2rem;
+    color: #2ecc71;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.loading-message {
+    font-size: 1.2rem;
+    color: #f39c12;
+    text-align: center;
+    margin-top: 2rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
-    .reset-password-page {
+    .verify-page {
         padding: 1.5rem;
         margin: 3rem 1rem;
     }
