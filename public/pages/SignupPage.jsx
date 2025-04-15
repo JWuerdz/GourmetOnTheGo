@@ -1,62 +1,65 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../supabase/supabaseClient";
-import "./LoginPage.css";
+import { useNavigate } from "react-router-dom";
+import "./SignUpPage.css";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
+const SignUpPage = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle form submission with Supabase Auth
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!username || !password) {
+    if (!email || !password) {
       alert("Please fill in all fields.");
       setLoading(false);
       return;
     }
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: username,
+      // Register the admin user
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
         password: password,
       });
 
       if (error) throw error;
 
-      const user = data.user;
-      const role = user?.user_metadata?.role;
+      // After sign-up, update the user metadata to mark them as an admin
+      const { error: metadataError } = await supabase
+        .from("users") // Assuming you have a users table
+        .upsert([
+          {
+            id: data.user.id,
+            user_metadata: { role: "admin" },
+          },
+        ]);
 
-      if (role === "admin") {
-        localStorage.setItem("supabase_token", data.session.access_token); // Save token
-        alert("Admin login successful!");
-        navigate("/admin");
-      } else {
-        alert("You do not have admin access.");
-      }
+      if (metadataError) throw metadataError;
+
+      alert("Admin account created successfully!");
+      navigate("/admin");
     } catch (error) {
-      alert(error.message || "Error logging in.");
+      alert(error.message || "Error creating admin account.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-page">
-      <h2>Login</h2>
-
+    <div className="signup-page">
+      <h2>Sign Up as Admin</h2>
       <form className="form-container" onSubmit={handleSubmit}>
-        <label htmlFor="username">Username (Email)</label>
+        <label htmlFor="email">Email</label>
         <input
-          id="username"
+          id="email"
           type="email"
           placeholder="Enter email"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -71,18 +74,11 @@ const LoginPage = () => {
         />
 
         <button type="submit" className="form-btn" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Creating account..." : "Sign Up"}
         </button>
       </form>
-
-      <p className="back-link">
-        <Link to="/menu">← Back to Menu</Link>
-      </p>
     </div>
   );
 };
 
-export default LoginPage;
-
-
-
+export default SignUpPage;
