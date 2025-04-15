@@ -63,14 +63,15 @@ html {
   width: 100%;
   z-index: 999;
   display: flex;
-  justify-content: center;
+  /*justify-content: left;
   gap: 2rem;
   background-color: #333;
-  padding: 1rem;
+  padding: 2em;
   /* Remove margin-bottom and border-radius for a cleaner fixed bar */
   margin-bottom: 0;
   border-radius: 0;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  align-items: left;
 }
 
 .nav-bar a {
@@ -260,4 +261,20 @@ h1 {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
+}
+
+.about-link{
+    align-self: center;
+    color: #FFFFFF;
+    
+}
+
+.about-link:visited{
+  color: #FFFFFF;
+}
+
+.logo-text{
+  color: #FFFFFF;
+  font-size: 12pt;
+  align-self: start;
 }
