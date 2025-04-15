@@ -13,7 +13,7 @@ import OrderPage from "../public/pages/OrderPage.jsx";
 import LoginPage from "../public/pages/LoginPage.jsx";
 import AdminPage from "../public/pages/AdminPage.jsx";
 import AboutPage from "../public/pages/AboutPage.jsx";
-import SignUpPage from "../public/pages/SignupPage.jsx";
+import SignUpPage from "../public/pages/SignUpPage.jsx";
 
 // Styles
 import "../public/index.css";
