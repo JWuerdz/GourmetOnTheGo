@@ -99,6 +99,7 @@ const MenuPage = () => {
           <p class="logo-text">Gourmet 2 Go</p>
           <Link to="/login">Login</Link>
           <Link to="/about">About</Link>
+          <Link to="/signup">Sign Up</Link>
         </nav>
 
         <motion.div className="menu-container" style={{ y }} ref={containerRef}>
