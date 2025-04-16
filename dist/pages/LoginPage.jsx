@@ -1,118 +1,98 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supabase/supabaseClient";
 import "./LoginPage.css";
 
 const LoginPage = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
-    const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState(""); // State for reset email form
+  const [showResetForm, setShowResetForm] = useState(false); // State to toggle reset password form
+  const navigate = useNavigate();
 
-    // Toggle between Login and Sign Up forms
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setIsAdmin(false);
-    };
+  // Handle form submission with Supabase Auth
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    if (!username || !password) {
+      alert("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
 
-        if (!username || !password) {
-            alert("Please fill in all fields.");
-            return;
-        }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
+        password: password,
+      });
 
-        if (isLogin) {
-            if (isAdmin && username === "admin" && password === "admin123") {
-                alert("Admin login successful!");
-                navigate("/admin");
-            } else if (!isAdmin && username === "user" && password === "user123") {
-                alert("User login successful!");
-                navigate("/menu");
-            } else {
-                alert("Invalid credentials.");
-            }
-        } else {
-            alert(`Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
-            setIsLogin(true);
-        }
-    };
+      if (error) throw error;
 
-    return (
-        <div className="login-page">
-            <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+      const user = data.user;
+      const role = user?.user_metadata?.role;
 
-            <form className="form-container" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input
-                    id="username"
-                    type="text"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
+      if (role === "admin") {
+        localStorage.setItem("supabase_token", data.session.access_token); // Save token
+        alert("Admin login successful!");
+        navigate("/admin");
+      } else {
+        alert("You do not have admin access.");
+      }
+    } catch (error) {
+      alert(error.message || "Error logging in.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                {!isLogin && (
-                    <>
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </>
-                )}
+  return (
+    <div className="login-page">
+      <h2>Login</h2>
 
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+      <form className="form-container" onSubmit={handleSubmit}>
+        <label htmlFor="username">Username (Email)</label>
+        <input
+          id="username"
+          type="email"
+          placeholder="Enter email"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
-                {isLogin && (
-                    <div className="admin-toggle">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isAdmin}
-                                onChange={() => setIsAdmin(!isAdmin)}
-                            />
-                            Login as Admin
-                        </label>
-                    </div>
-                )}
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-                <button type="submit" className="form-btn">
-                    {isLogin ? "Login" : "Sign Up"}
-                </button>
-            </form>
+        <button type="submit" className="form-btn" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
-            <p className="toggle-text">
-                {isLogin ? "Don't have an account?" : "Already have an account?"}
-                <button onClick={toggleForm} className="toggle-btn">
-                    {isLogin ? "Sign Up" : "Login"}
-                </button>
-            </p>
+        {/* Forgot password link */}
+        <p className="forgot-password-link">
+          <Link to="/reset-password">Forgot password?</Link>
+        </p>
+      </form>
 
-            <p className="back-link">
-                <Link to="/menu">← Back to Menu</Link>
-            </p>
-        </div>
-    );
+      <p className="back-link">
+        <Link to="/menu">← Back to Menu</Link>
+      </p>
+    </div>
+  );
 };
 
 export default LoginPage;
+
+
+
+
+
+

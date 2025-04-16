@@ -64,11 +64,7 @@ html {
   height: 50px;
   z-index: 999;
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  background-color: #333;
-  padding: 2em;
-  /* Remove margin-bottom and border-radius for a cleaner fixed bar */
+  justify-content: left;
   margin-bottom: 0;
   border-radius: 0;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -280,3 +276,4 @@ h1 {
   font-size: 12pt;
   align-self: start;
 }
+
