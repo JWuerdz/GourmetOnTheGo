@@ -275,6 +275,6 @@ h1 {
   color: #FFFFFF;
   font-size: 12pt;
   align-self: start;
-  line-height: 0;
+  line-height: 1.18;
 }
 
