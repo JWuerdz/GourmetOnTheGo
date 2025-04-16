@@ -128,7 +128,7 @@ const AdminPage = () => {
                         }
                     />
                     {/* isActive checkbox */}
-                    <label className="checkbox-label">
+                    <label className="checkbox-label">Is This Item Active
                         <input
                             type="checkbox"
                             checked={newItem.isActive}
