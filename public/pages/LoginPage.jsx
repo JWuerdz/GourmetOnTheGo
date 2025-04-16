@@ -47,89 +47,40 @@ const LoginPage = () => {
     }
   };
 
-  // Handle password reset
-  const handlePasswordReset = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail); // Corrected method
-      if (error) throw error;
-
-      alert("Password reset link sent to your email.");
-      setShowResetForm(false); // Hide reset form after submission
-    } catch (error) {
-      alert(error.message || "Error sending password reset email.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="login-page">
       <h2>Login</h2>
 
-      {/* If reset form is shown, display it */}
-      {showResetForm ? (
-        <form className="form-container" onSubmit={handlePasswordReset}>
-          <label htmlFor="resetEmail">Enter your email</label>
-          <input
-            id="resetEmail"
-            type="email"
-            placeholder="Enter email"
-            value={resetEmail}
-            onChange={(e) => setResetEmail(e.target.value)}
-            required
-          />
-          <button type="submit" className="form-btn" disabled={loading}>
-            {loading ? "Sending reset email..." : "Send Reset Link"}
-          </button>
-          <p>
-            Remembered your password?{" "}
-            <span
-              style={{ color: "blue", cursor: "pointer" }}
-              onClick={() => setShowResetForm(false)}
-            >
-              Go back to login
-            </span>
-          </p>
-        </form>
-      ) : (
-        <form className="form-container" onSubmit={handleSubmit}>
-          <label htmlFor="username">Username (Email)</label>
-          <input
-            id="username"
-            type="email"
-            placeholder="Enter email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+      <form className="form-container" onSubmit={handleSubmit}>
+        <label htmlFor="username">Username (Email)</label>
+        <input
+          id="username"
+          type="email"
+          placeholder="Enter email"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-          <button type="submit" className="form-btn" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
+        <button type="submit" className="form-btn" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
-          <p>
-            <span
-              style={{ color: "blue", cursor: "pointer" }}
-              onClick={() => setShowResetForm(true)}
-            >
-              Forgot password?
-            </span>
-          </p>
-        </form>
-      )}
+        {/* Forgot password link */}
+        <p className="forgot-password-link">
+          <Link to="/reset-password">Forgot password?</Link>
+        </p>
+      </form>
 
       <p className="back-link">
         <Link to="/menu">← Back to Menu</Link>
@@ -139,6 +90,8 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+
 
 
 
