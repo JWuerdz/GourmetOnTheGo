@@ -133,8 +133,8 @@ const MenuPage = () => {
             ))}
           </div>
         </motion.div>
-        <footer>
-          <p>© {new Date().getFullYear()} Gourmet 2 Go. All rights reserved.</p>
+        <footer style={{backgroundColor:"#d35400"}}>
+          <p style={{color:"white"}}>© {new Date().getFullYear()} Gourmet 2 Go. All rights reserved.</p>
         </footer>
       </motion.div>
       
