@@ -126,7 +126,7 @@ const MenuPage = () => {
                       <div className="price-beam">
                         <span className="food-price">${item.price.toFixed(2)}</span>
                       </div>
-                      <p style={{color: "#d35400"}}>Quantity: {item.quantity}</p>
+                      <p style={{color: "#666"}}>Quantity: {item.quantity}</p>
                     </div>
                   </motion.div>
                 </Tilt>
