@@ -1,5 +1,5 @@
 import express from 'express'
-import { authenticateAdmin } from '../middleware/authMiddleware.js'
+import { authenticateAdmin } from '../authMiddleware.js'
 
 const router = express.Router()
 

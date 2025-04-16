@@ -8,7 +8,6 @@ const AboutPage = () => {
             {/* Fixed, full-width gradient nav bar */}
             <nav className="nav-bar">
                 <Link to="/menu" className="nav-link">Menu</Link>
-                <Link to="/order" className="nav-link">Order</Link>
                 <Link to="/login" className="nav-link">Login</Link>
             </nav>
 

@@ -1,118 +1,147 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supabase/supabaseClient";
 import "./LoginPage.css";
 
 const LoginPage = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
-    const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState(""); // State for reset email form
+  const [showResetForm, setShowResetForm] = useState(false); // State to toggle reset password form
+  const navigate = useNavigate();
 
-    // Toggle between Login and Sign Up forms
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setIsAdmin(false);
-    };
+  // Handle form submission with Supabase Auth
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    if (!username || !password) {
+      alert("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
 
-        if (!username || !password) {
-            alert("Please fill in all fields.");
-            return;
-        }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
+        password: password,
+      });
 
-        if (isLogin) {
-            if (isAdmin && username === "admin" && password === "admin123") {
-                alert("Admin login successful!");
-                navigate("/admin");
-            } else if (!isAdmin && username === "user" && password === "user123") {
-                alert("User login successful!");
-                navigate("/menu");
-            } else {
-                alert("Invalid credentials.");
-            }
-        } else {
-            alert(`Signing up:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
-            setIsLogin(true);
-        }
-    };
+      if (error) throw error;
 
-    return (
-        <div className="login-page">
-            <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+      const user = data.user;
+      const role = user?.user_metadata?.role;
 
-            <form className="form-container" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input
-                    id="username"
-                    type="text"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
+      if (role === "admin") {
+        localStorage.setItem("supabase_token", data.session.access_token); // Save token
+        alert("Admin login successful!");
+        navigate("/admin");
+      } else {
+        alert("You do not have admin access.");
+      }
+    } catch (error) {
+      alert(error.message || "Error logging in.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                {!isLogin && (
-                    <>
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </>
-                )}
+  // Handle password reset
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail); // Corrected method
+      if (error) throw error;
 
-                {isLogin && (
-                    <div className="admin-toggle">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isAdmin}
-                                onChange={() => setIsAdmin(!isAdmin)}
-                            />
-                            Login as Admin
-                        </label>
-                    </div>
-                )}
+      alert("Password reset link sent to your email.");
+      setShowResetForm(false); // Hide reset form after submission
+    } catch (error) {
+      alert(error.message || "Error sending password reset email.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                <button type="submit" className="form-btn">
-                    {isLogin ? "Login" : "Sign Up"}
-                </button>
-            </form>
+  return (
+    <div className="login-page">
+      <h2>Login</h2>
 
-            <p className="toggle-text">
-                {isLogin ? "Don't have an account?" : "Already have an account?"}
-                <button onClick={toggleForm} className="toggle-btn">
-                    {isLogin ? "Sign Up" : "Login"}
-                </button>
-            </p>
+      {/* If reset form is shown, display it */}
+      {showResetForm ? (
+        <form className="form-container" onSubmit={handlePasswordReset}>
+          <label htmlFor="resetEmail">Enter your email</label>
+          <input
+            id="resetEmail"
+            type="email"
+            placeholder="Enter email"
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            required
+          />
+          <button type="submit" className="form-btn" disabled={loading}>
+            {loading ? "Sending reset email..." : "Send Reset Link"}
+          </button>
+          <p>
+            Remembered your password?{" "}
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => setShowResetForm(false)}
+            >
+              Go back to login
+            </span>
+          </p>
+        </form>
+      ) : (
+        <form className="form-container" onSubmit={handleSubmit}>
+          <label htmlFor="username">Username (Email)</label>
+          <input
+            id="username"
+            type="email"
+            placeholder="Enter email"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-            <p className="back-link">
-                <Link to="/menu">← Back to Menu</Link>
-            </p>
-        </div>
-    );
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit" className="form-btn" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <p>
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => setShowResetForm(true)}
+            >
+              Forgot password?
+            </span>
+          </p>
+        </form>
+      )}
+
+      <p className="back-link">
+        <Link to="/menu">← Back to Menu</Link>
+      </p>
+    </div>
+  );
 };
 
 export default LoginPage;
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    /* Use the same soft, warm gradient background as other pages */
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.signup-page {
+    max-width: 400px;
+    margin: 6rem auto; /* Ensure enough top margin so it's not too close to the top (or nav bar, if present) */
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+.signup-page h2 {
+    font-size: 2rem;
+    color: #d35400; /* Consistent accent color */
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    font-weight: 600;
+    color: #333;
+}
+
+input {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    font-size: 1rem;
+    transition: box-shadow 0.3s;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(211, 84, 0, 0.6);
+}
+
+.form-btn {
+    background-color: #d35400;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.form-btn:hover {
+    transform: scale(1.05);
+    background-color: #b03900;
+}
+
+.toggle-text {
+    text-align: center;
+    color: #555;
+    margin-top: 1rem;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #d35400;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    color: #b03900;
+    text-decoration: underline;
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.back-link a {
+    color: #d35400;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.back-link a:hover {
+    color: #b03900;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .signup-page {
+        padding: 1.5rem;
+        margin: 3rem 1rem;
+    }
+}

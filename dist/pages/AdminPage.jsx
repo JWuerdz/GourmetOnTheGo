@@ -102,7 +102,8 @@ const AdminPage = () => {
                     <input
                         type="number"
                         placeholder="Price"
-                        step="0.01"
+                        step="1"
+                        min="0"
                         value={newItem.price}
                         onChange={(e) =>
                             setNewItem({ ...newItem, price: e.target.value })
@@ -135,7 +136,7 @@ const AdminPage = () => {
                                 setNewItem({ ...newItem, isActive: e.target.checked })
                             }
                         />
-                        {" "}Active
+                        {/* {" "}Active */}
                     </label>
 
                     <button type="submit" className="save-button">
