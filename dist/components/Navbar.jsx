@@ -19,6 +19,7 @@ const Navbar = () => {
                     <Link to="/login" className="nav-button">Login</Link>
                     <Link to="/admin" className="nav-button">Admin</Link>
                     <Link to="/signup" className="nav-button">Sign Up</Link>
+                    <Link to="/resetpassword" className="nav-button">Reset Password</Link>
                 </div>
                 <div className="hamburger" onClick={toggleMenu}>
                     &#9776;
