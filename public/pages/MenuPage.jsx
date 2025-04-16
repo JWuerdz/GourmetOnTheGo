@@ -133,7 +133,11 @@ const MenuPage = () => {
             ))}
           </div>
         </motion.div>
+        <footer>
+          <p>© {new Date().getFullYear()} Gourmet 2 Go. All rights reserved.</p>
+        </footer>
       </motion.div>
+      
   );
 };
 
