@@ -163,7 +163,6 @@ const AdminPage = () => {
 
                                 <div className="item-actions">
                                     <button onClick={() => handleEdit(item)}>Edit</button>
-                                    <button onClick={() => removeItem(item.id)}>Delete</button>
                                     <button onClick={() => handleToggleActive(item)}>
                                         {item.isActive ? "Deactivate" : "Activate"}
                                     </button>
